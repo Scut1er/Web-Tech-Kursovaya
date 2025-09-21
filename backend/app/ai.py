@@ -56,6 +56,7 @@ def suggest_recipes(
         " Для каждого блюда верни объект строго формата JSON: {\"title\": string, \"need\": string[]} где need — СТРОГО перечень недостающих ингредиентов, которых НЕТ в списке. Если всё есть — need=[]" \
         f". Верни строго JSON массив без текста вокруг. N={max_dishes}."
     )
+    print(prompt)
     try:
         result = model.generate_content(prompt)
         text = (result.candidates[0].content.parts[0].text if getattr(result, "candidates", None) else "")

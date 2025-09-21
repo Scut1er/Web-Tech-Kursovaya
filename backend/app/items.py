@@ -64,7 +64,7 @@ def list_items(
 
 @router.post("/", response_model=ItemOut)
 def create_item(payload: ItemCreate, room: Room = Depends(require_room_member), session: Session = Depends(get_session)) -> ItemOut:
-    category = payload.category or auto_category_for_name(payload.name)
+    category = payload.category or auto_category_for_name(payload.name) or "Другое"
     item = Item(
         room_id=room.id,
         name=payload.name.strip(),
@@ -92,7 +92,7 @@ def update_item(
     if payload.quantity is not None:
         item.quantity = payload.quantity.strip() if payload.quantity else None
     if payload.category is not None:
-        item.category = payload.category or auto_category_for_name(item.name)
+        item.category = payload.category or auto_category_for_name(item.name) or "Другое"
     item.updated_at = datetime.utcnow()
     session.add(item)
     session.commit()
