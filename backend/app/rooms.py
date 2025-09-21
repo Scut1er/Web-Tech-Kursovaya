@@ -4,9 +4,9 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlmodel import Session, select
 
 from .db import get_session
-from .deps import get_current_user
+from .deps import get_current_user, require_room_member
 from .models import Room, RoomMember, User
-from .schemas import JoinRoomRequest, RoomCreate, RoomOut
+from .schemas import JoinRoomRequest, RoomCreate, RoomOut, RoomMemberOut
 
 
 router = APIRouter()
@@ -88,6 +88,52 @@ def delete_room(public_id: str, session: Session = Depends(get_session), user: U
     for it in items:
         it.deleted_at = now
         session.add(it)
+    session.commit()
+    return {"ok": True}
+
+
+@router.get("/{public_id}/members", response_model=list[RoomMemberOut])
+def list_members(public_id: str, session: Session = Depends(get_session), user: User = Depends(get_current_user)) -> list[RoomMemberOut]:
+    room = session.exec(select(Room).where((Room.public_id == public_id) & (Room.deleted_at == None))).first()  # noqa: E711
+    if room is None:
+        raise HTTPException(status_code=404, detail="Room not found")
+    # доступ только участникам
+    membership = session.exec(
+        select(RoomMember).where((RoomMember.room_id == room.id) & (RoomMember.user_id == user.id))
+    ).first()
+    if membership is None:
+        raise HTTPException(status_code=403, detail="Not a room member")
+    members = session.exec(select(RoomMember).where(RoomMember.room_id == room.id)).all()
+    # подгружаем имена
+    user_ids = [m.user_id for m in members]
+    users = session.exec(select(User).where(User.id.in_(user_ids))).all() if user_ids else []
+    id_to_username = {u.id: u.username for u in users}
+    return [
+        RoomMemberOut(
+            id=m.id,
+            user_id=m.user_id,
+            username=id_to_username.get(m.user_id, "unknown"),
+            role=m.role,
+            joined_at=m.joined_at,
+        )
+        for m in members
+    ]
+
+
+@router.post("/{public_id}/leave")
+def leave_room(public_id: str, session: Session = Depends(get_session), user: User = Depends(get_current_user)) -> dict:
+    room = session.exec(select(Room).where((Room.public_id == public_id) & (Room.deleted_at == None))).first()  # noqa: E711
+    if room is None:
+        raise HTTPException(status_code=404, detail="Room not found")
+    membership = session.exec(
+        select(RoomMember).where((RoomMember.room_id == room.id) & (RoomMember.user_id == user.id))
+    ).first()
+    if membership is None:
+        raise HTTPException(status_code=404, detail="Not in room")
+    # владелец не может покинуть комнату
+    if membership.role == "owner":
+        raise HTTPException(status_code=400, detail="Owner can't leave")
+    session.delete(membership)
     session.commit()
     return {"ok": True}
 

@@ -78,3 +78,12 @@ class ItemOut(BaseModel):
     deleted_at: Optional[datetime]
 
 
+# Участники комнат
+class RoomMemberOut(BaseModel):
+    id: int
+    user_id: int
+    username: str
+    role: str
+    joined_at: datetime
+
+
