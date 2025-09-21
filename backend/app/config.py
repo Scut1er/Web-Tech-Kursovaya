@@ -17,12 +17,9 @@ class Settings(BaseSettings):
     cors_origins: list[str] = []
     cookie_ttl_days: int = 14
 
-    hide_purchased_after_days: int = 7
-
     # AI
     ai_provider: str | None = "gemini"
     gemini_api_key: str | None = None
-
 
     @field_validator("cors_origins", mode="before")
     @classmethod

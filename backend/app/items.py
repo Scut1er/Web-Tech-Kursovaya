@@ -1,12 +1,11 @@
 from __future__ import annotations
 
-from datetime import datetime, timedelta
+from datetime import datetime
 from typing import Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlmodel import Session, select
 
-from .config import settings
 from .db import get_session
 from .deps import require_room_member
 from .models import Item, Room
@@ -17,10 +16,6 @@ from .utils import auto_category_for_name
 router = APIRouter()
 
 
-def _hide_old_purchased_filter(query, now: datetime) -> None:
-    hide_after = timedelta(days=settings.hide_purchased_after_days)
-    cutoff = now - hide_after
-    return query.where((Item.is_purchased == False) | (Item.purchased_at == None) | (Item.purchased_at >= cutoff))  # noqa: E712
 
 
 @router.get("/", response_model=list[ItemOut])
@@ -28,12 +23,8 @@ def list_items(
     room: Room = Depends(require_room_member),
     session: Session = Depends(get_session),
     sort_by: SortBy = Query(default="created"),
-    show_old: bool = Query(default=False, description="Показывать ли старые купленные позиции"),
 ) -> list[ItemOut]:
     stmt = select(Item).where((Item.room_id == room.id) & (Item.deleted_at == None))  # noqa: E711
-    now = datetime.utcnow()
-    if not show_old:
-        stmt = _hide_old_purchased_filter(stmt, now)
 
     if sort_by == "created":
         stmt = stmt.order_by(Item.created_at.desc())
