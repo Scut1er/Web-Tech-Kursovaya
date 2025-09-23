@@ -1,8 +1,8 @@
 from __future__ import annotations
 
-from typing import Optional
+from typing import Optional, Literal
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlmodel import Session, select
 
 from .config import settings
@@ -14,8 +14,9 @@ from .models import Item, Room
 router = APIRouter()
 
 
-def _client() -> Optional[object]:
-    if settings.ai_provider == "gemini" and settings.gemini_api_key:
+def _client(provider_override: Optional[str] = None) -> Optional[tuple[str, object]]:
+    provider = (provider_override or settings.ai_provider or "").lower()
+    if provider == "gemini" and settings.gemini_api_key:
         try:
             import os
             # Приглушаем шумные логи gRPC/absl внутри контейнера
@@ -25,7 +26,13 @@ def _client() -> Optional[object]:
             import google.generativeai as genai  # type: ignore
 
             genai.configure(api_key=settings.gemini_api_key)
-            return genai.GenerativeModel("gemini-1.5-flash")
+            return ("gemini", genai.GenerativeModel("gemini-1.5-flash"))
+        except Exception:  # pragma: no cover
+            return None
+    if provider == "mistral" and settings.mistral_api_key:
+        try:
+            from mistralai import Mistral
+            return ("mistral", Mistral(api_key=settings.mistral_api_key))
         except Exception:  # pragma: no cover
             return None
     return None
@@ -36,17 +43,16 @@ def suggest_recipes(
     room: Room = Depends(require_room_member),
     session: Session = Depends(get_session),
     max_dishes: int = 10,
+    provider: Optional[Literal["gemini", "mistral"]] = Query(default=None, description="Провайдер ИИ"),
 ) -> dict:
     items = session.exec(
         select(Item).where((Item.room_id == room.id) & (Item.deleted_at == None))  # noqa: E711
     ).all()
     have = [i.name for i in items if i.is_purchased]
-    model = _client()
-    if not model:
+    client_info = _client(provider)
+    if not client_info:
         # Простой локальный фолбэк без внешнего API
-        base = [
-            {"title": f"Простое блюдо из {n}", "need_one": None} for n in have[: max(1, min(len(have), max_dishes))]
-        ]
+        base = [{"title": f"Простое блюдо из {n}", "need": []} for n in have[: max(1, min(len(have), max_dishes))]]
         return {"provider": None, "dishes": base}
 
     prompt = (
@@ -57,11 +63,19 @@ def suggest_recipes(
         f". Верни строго JSON массив без текста вокруг. N={max_dishes}."
     )
     print(prompt)
+    sel_provider, client = client_info if client_info else (None, None)
     try:
-        result = model.generate_content(prompt)
-        text = (result.candidates[0].content.parts[0].text if getattr(result, "candidates", None) else "")
+        if sel_provider == "gemini":
+            result = client.generate_content(prompt)
+            text = (result.candidates[0].content.parts[0].text if getattr(result, "candidates", None) else "")
+        elif sel_provider == "mistral":
+            # Chat Completions API Mistral
+            resp = client.chat.complete(model="mistral-small-latest", messages=[{"role": "user", "content": prompt}])
+            text = resp.choices[0].message.content if getattr(resp, "choices", None) else ""
+        else:
+            text = ""
     except Exception as e:  # сеть/квота и т.п.
-        return {"provider": "gemini", "error": str(e), "dishes": []}
+        return {"provider": sel_provider, "error": str(e), "dishes": []}
 
     # Лояльный парсинг JSON-подобного ответа
     import json, re  # noqa: E401
@@ -124,6 +138,6 @@ def suggest_recipes(
     norm.sort(key=lambda x: len(x["need"]))
     norm = norm[:max_dishes]
 
-    return {"provider": "gemini", "dishes": norm}
+    return {"provider": sel_provider, "dishes": norm}
 
 

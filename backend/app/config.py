@@ -18,8 +18,9 @@ class Settings(BaseSettings):
     cookie_ttl_days: int = 14
 
     # AI
-    ai_provider: str | None = "gemini"
+    ai_provider: str | None = "gemini"  # "gemini" | "mistral"
     gemini_api_key: str | None = None
+    mistral_api_key: str | None = None
 
     @field_validator("cors_origins", mode="before")
     @classmethod
