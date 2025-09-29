@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
   --background: #ffffff;
   --foreground: #5d5c5c;
@@ -207,9 +211,5 @@ a.secondary {
   .logo {
     filter: invert();
   }
-}
-
-.content {
-  margin-top: 100px;
 }
 

@@ -1,5 +1,3 @@
-import { IProduct } from "@entities/Product/types";
-
 export interface IRouteData {
     id: string;
     path: string;
@@ -33,5 +31,6 @@ export const routesDataList: IRouteData[] = [
 ];
 
 export const enum ApiEndpoints {
-    PRODUCTS = "products",
+    ITEMS = "items",
+    ROOMS = "rooms",
 }
