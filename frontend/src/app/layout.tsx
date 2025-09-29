@@ -1,4 +1,5 @@
 import StoreProvider from "@app/_providers/StoreProvider";
+import DesignSystemProvider from "./_providers/DesignSystemProvider";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ReactElement, ReactNode } from "react";
 import type { Metadata } from "next";
@@ -28,7 +29,9 @@ const RootLayout = ({
         <html lang="en">
             <body className={`${geistSans.variable} ${geistMono.variable}`}>
                 <div className="content">
-                    <StoreProvider>{children}</StoreProvider>
+                    <DesignSystemProvider>
+                        <StoreProvider>{children}</StoreProvider>
+                    </DesignSystemProvider>
                 </div>
             </body>
         </html>
