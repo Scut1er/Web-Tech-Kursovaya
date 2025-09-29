@@ -1,5 +1,5 @@
 import { createSlice, type PayloadAction, type Slice } from "@reduxjs/toolkit";
-import type { IProduct } from "@entities/Product/types";
+import type { IProduct } from "@entities/Item/types";
 
 export interface IRoomSlice {
     loadedProducts: IProduct[];
