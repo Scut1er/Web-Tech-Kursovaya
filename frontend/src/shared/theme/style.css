@@ -20,6 +20,8 @@
   --color-info: #2196f3;
 
   --background-hide: rgba(0, 0, 0, 0.6);
+
+  --widget-box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
 }
 
 * {
@@ -29,9 +31,14 @@
 }
 
 body {
-    background: linear-gradient(to bottom right, #1C1C1C, #2D2D2D);
+    background: linear-gradient(
+        135deg,
+        var(--color-bg),
+        var(--color-surface)
+    );
     width: 100vw;
     height: 100vh;
+    overflow: hidden;
 }
 
 .app-button-root {
