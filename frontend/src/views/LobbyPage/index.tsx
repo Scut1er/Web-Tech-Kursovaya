@@ -1,9 +1,14 @@
 "use client";
 
+import { ProtectedRoute } from "@shared/wrappers/ProtectedRoute";
 import { type ReactElement } from "react";
 
 const LobbyPage = (): ReactElement => {
-    return <div className="lobby-page">Lobby Page</div>;
+    return (
+        <ProtectedRoute>
+            <div className="lobby-page">Lobby Page</div>;
+        </ProtectedRoute>
+    );
 };
 
 export default LobbyPage;

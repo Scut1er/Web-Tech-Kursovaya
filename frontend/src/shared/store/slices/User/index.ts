@@ -1,23 +1,38 @@
-import { createSlice, Slice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, type Slice, type PayloadAction } from "@reduxjs/toolkit";
+import type { IUser } from "@entities/User/types";
 
 export interface IUserSlice {
-    isAuthorized: boolean;
+    data: IUser | null;
+    isUserAuthorized: boolean;
 }
 
 const initialState: IUserSlice = {
-    isAuthorized: false,
+    data: null,
+    isUserAuthorized: false,
 };
 
 const userSlice: Slice<IUserSlice> = createSlice({
     name: "user",
     initialState,
     reducers: {
-        setIsAuthorized: (state, action: PayloadAction<boolean>) => {
-            state.isAuthorized = action.payload;
+        setData: (state, action: PayloadAction<IUser>) => {
+            state.data = action.payload;
+        },
+        setIsUserAuthorized: (state, action: PayloadAction<boolean>) => {
+            state.isUserAuthorized = action.payload;
+        },
+        updateAuthSession: (state, action: PayloadAction<IUser>) => {
+            state.data = action.payload;
+            state.isUserAuthorized = true;
+        },
+        resetSession: (state, _action: PayloadAction<null>) => {
+            state.isUserAuthorized = false;
+            state.data = null;
         },
     },
 });
 
-export const { setIsAuthorized } = userSlice.actions;
+export const { setData, setIsUserAuthorized, updateAuthSession, resetSession } =
+    userSlice.actions;
 
 export default userSlice.reducer;
