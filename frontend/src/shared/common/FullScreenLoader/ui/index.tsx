@@ -4,11 +4,8 @@ import "./style.css";
 const FullScreenLoader = (): ReactElement => {
     return (
         <div className="full-screen-loader-wrapper">
-            <div className="loader">
-                <h1>LOADING</h1>
-                <div className="line-wrapper">
-                    <div className="loading-line"></div>
-                </div>
+            <div className="full-screen-loader">
+                <div className="spinner"></div>
             </div>
         </div>
     );

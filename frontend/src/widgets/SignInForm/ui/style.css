@@ -1,0 +1,21 @@
+.auth-form {
+  width: 100%;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+}
+
+.auth-form-group {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.auth-form-error {
+  margin-bottom: 1rem;
+}
+
+.auth-form-button,
+.auth-form-input {
+  width: 100%;
+}

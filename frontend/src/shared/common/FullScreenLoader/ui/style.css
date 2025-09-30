@@ -1,0 +1,30 @@
+.full-screen-loader-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--background-hide, rgba(0, 0, 0, 0.6));
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  pointer-events: all;
+}
+
+.full-screen-loader {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.spinner {
+  width: 60px;
+  height: 60px;
+  border: 6px solid var(--color-text-muted);
+  border-top: 6px solid var(--color-primary);
+  border-radius: 50%;
+  animation: spin 1.5s linear infinite;
+}

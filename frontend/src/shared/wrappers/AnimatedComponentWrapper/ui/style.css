@@ -1,0 +1,83 @@
+.content-fade-enter {
+  position: relative;
+  will-change: opacity, max-height;
+  animation: fadeIn 400ms ease forwards;
+}
+
+.content-fade-exit {
+  position: relative;
+  will-change: opacity, max-height;
+  animation: fadeOut 400ms ease forwards;
+}
+
+.content-fade-blur-enter {
+  position: relative;
+  backdrop-filter: blur(20px);
+  will-change: opacity, max-height;
+  animation: fadeIn 400ms ease forwards;
+}
+
+.content-fade-blur-exit {
+  position: relative;
+  backdrop-filter: blur(20px);
+  will-change: opacity, max-height;
+  animation: fadeOut 400ms ease forwards;
+}
+
+.content-fade-expand-enter {
+  position: relative;
+  max-height: 0;
+  overflow: hidden;
+  will-change: opacity, max-height;
+  animation: fadeExpandIn 400ms ease forwards;
+}
+
+.content-fade-expand-exit {
+  position: relative;
+  will-change: opacity, max-height;
+  animation: fadeExpandOut 400ms ease forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes fadeExpandIn {
+  from {
+    max-height: 0;
+    opacity: 0;
+  }
+
+  to {
+    max-height: 100vh;
+    opacity: 1;
+  }
+}
+
+@keyframes fadeExpandOut {
+  from {
+    max-height: 100vh;
+    opacity: 1;
+  }
+
+  to {
+    max-height: 0;
+    opacity: 0;
+  }
+}
