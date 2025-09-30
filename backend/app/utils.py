@@ -1,6 +1,4 @@
 from typing import Optional
-import json
-from datetime import datetime, timedelta, timezone
 from itsdangerous import URLSafeSerializer, BadSignature
 from .config import settings
 
@@ -32,17 +30,15 @@ def _cookie_signer() -> URLSafeSerializer:
 
 
 def make_user_cookie_payload(user_id: int, username: str) -> str:
-    expires_at = (datetime.now(timezone.utc) + timedelta(days=settings.cookie_ttl_days)).isoformat()
-    data = {"id": user_id, "username": username, "exp": expires_at}
+    # Подписываем только основные данные пользователя; срок жизни задаётся через Max-Age/Expires cookie
+    data = {"id": user_id, "username": username}
     return _cookie_signer().dumps(data)
 
 
 def load_user_cookie_payload(token: str) -> Optional[dict]:
     try:
+        # Проверяем подпись; срок действия контролируется флагами cookie в браузере
         data = _cookie_signer().loads(token)
-        exp = datetime.fromisoformat(data.get("exp")) if data.get("exp") else None
-        if exp and exp < datetime.now(timezone.utc):
-            return None
         return data
     except (BadSignature, ValueError):
         return None
