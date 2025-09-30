@@ -32,7 +32,8 @@
       "@shared/*": ["src/shared/*"],
       "@hooks/*": ["src/shared/hooks/*"],
       "@common/*": ["src/shared/common/*"],
-      "@design-system/*": ["src/shared/design-system/*"]
+      "@design-system/*": ["src/shared/design-system/*"],
+      "@services/*": ["src/shared/services/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "tailwind.config.js"],

@@ -1,0 +1,14 @@
+.authorization {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.authorization .content {
+  width: 30rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}

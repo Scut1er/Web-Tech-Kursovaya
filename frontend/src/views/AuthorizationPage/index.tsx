@@ -3,10 +3,18 @@
 import { useState, type ReactElement } from "react";
 import { SignUpForm } from "@widgets/SignUpForm";
 import { SignInForm } from "@widgets/SignInForm";
+import { Button } from "primereact/button";
+import "./style.css";
 
 export enum AuthFormType {
     login = "login",
     signUp = "signUp",
+}
+
+interface IAuthorizationFormData {
+    element: ReactElement;
+    changeTypeButtonAction: () => void;
+    changeTypeButtonLabel: string;
 }
 
 const AuthorizationPage = (): ReactElement => {
@@ -19,14 +27,39 @@ const AuthorizationPage = (): ReactElement => {
         setAuthFormType(AuthFormType.login);
     };
 
-    const authorizationFormByType = {
-        login: <SignInForm />,
-        signUp: <SignUpForm />,
+    const authorizationFormDataByType: Record<
+        AuthFormType,
+        IAuthorizationFormData
+    > = {
+        [AuthFormType.login]: {
+            element: <SignInForm />,
+            changeTypeButtonAction: setSignUpForm,
+            changeTypeButtonLabel: "First time on the website? Go to sign up.",
+        },
+        [AuthFormType.signUp]: {
+            element: <SignUpForm />,
+            changeTypeButtonAction: setSignInForm,
+            changeTypeButtonLabel: "Already have account? Go to sign in.",
+        },
     };
 
+    const {
+        element: formElement,
+        changeTypeButtonAction,
+        changeTypeButtonLabel,
+    } = authorizationFormDataByType[authFormType];
+
     return (
-        <div className="w-screen h-screen flex justify-center items-center bg-[linear-gradient(to_bottom_right,_#1C1C1C,_#2D2D2D)]">
-            {authorizationFormByType[authFormType]}
+        <div className="authorization">
+            <div className="content">
+                {formElement}
+                <Button
+                    label={changeTypeButtonLabel}
+                    type="submit"
+                    className={`typography-body`}
+                    onClick={changeTypeButtonAction}
+                />
+            </div>
         </div>
     );
 };

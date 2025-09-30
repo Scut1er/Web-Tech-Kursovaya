@@ -1,16 +1,14 @@
-import classNames from "classnames";
-import {
-    CustomButtonPrimeClassnames,
-    CustomButtonPrimeSeverityTypes,
-} from "@utils/constants";
 import {
     ButtonPassThroughMethodOptions,
     ButtonPassThroughOptions,
 } from "primereact/button";
 
 const buttonDesignSystem: ButtonPassThroughOptions = {
-    root: { className: "my-button" },
-    label: { className: "my-button-label" },
+    root: ({ props }: ButtonPassThroughMethodOptions) => ({
+        className: `app-button-root ${props.loading ? "loading" : ""}`,
+    }),
+    label: { className: "app-button-label" },
+    loadingIcon: { className: "app-button-loading-icon" },
 };
 
 export default buttonDesignSystem;

@@ -1,21 +1,18 @@
+"use client";
+
+import API from "@shared/api";
+import ErrorParser from "@shared/services/ErrorParser";
 import { AppDispatch, type TRootState } from "@store/index";
-import { useLayoutEffect, type ReactElement } from "react";
+import { PropsWithChildren, useLayoutEffect } from "react";
 import { setIsLoading } from "@store/slices/Application";
 import { useDispatch, useSelector } from "react-redux";
-import { routesData } from "@utils/constants";
-import { redirect } from "next/navigation";
-import {
-    resetSession,
-    setIsSessionLoaded,
-    updateAuthSession,
-} from "@store/slices/User";
+import { ApiEndpoints, routesData } from "@utils/constants";
+import { resetSession, setIsUserAuthorized } from "@store/slices/User";
+import { useRouter } from "next/navigation";
 
-export interface IProtectedRouteProps {
-    children: ReactElement;
-}
-
-const ProtectedRoute = ({ children }: IProtectedRouteProps) => {
+const ProtectedRoute = ({ children }: PropsWithChildren) => {
     const dispatch = useDispatch<AppDispatch>();
+    const router = useRouter();
 
     const isUserAuthorized = useSelector(
         (state: TRootState) => state.user.isUserAuthorized
@@ -25,19 +22,19 @@ const ProtectedRoute = ({ children }: IProtectedRouteProps) => {
         try {
             dispatch(setIsLoading(true));
 
-            const authSession =
-                await AuthorizationService.getCurrentAuthSession();
+            await API.apiRequest("post", ApiEndpoints.ROOMS_MY);
 
-            dispatch(updateAuthSession(authSession));
-        } catch (error: any) {
-            console.error(error.message);
+            dispatch(setIsUserAuthorized(true));
+
+            router.push(routesData.AUTHORIZATION.path);
+        } catch (error: unknown) {
+            console.error(ErrorParser.parseAxiosError(error));
 
             dispatch(resetSession(null));
 
-            redirect(routesData.AUTHORIZATION.path);
+            router.push(routesData.AUTHORIZATION.path);
         } finally {
             dispatch(setIsLoading(false));
-            dispatch(setIsSessionLoaded(true));
         }
     };
 

@@ -39,36 +39,6 @@ export const routesDataList: IRouteData[] = [
     },
 ];
 
-export const enum CustomButtonPrimeClassnames {
-    PRIMARY = "customButtonPrimary",
-    SECONDARY = "customButtonSecondary",
-    CANCEL = "customButtonCancel",
-    DANGER = "customButtonDanger",
-    GHOST = "customButtonGhost",
-    INLINE = "customButtonInline",
-    ICON_BUTTON_CONTROL = "customIconButtonControl",
-    ICON_BUTTON_PRIMARY = "customIconButtonPrimary",
-    ICON_BUTTON_SECONDARY = "customIconButtonSecondary",
-    ICON_BUTTON_GHOST = "customIconButtonGhost",
-    ICON_BUTTON_WITH_LABEL = "customIconButtonWithLabel",
-}
-
-export const enum CustomButtonPrimeSeverityTypes {
-    SUCCESS = "success",
-    HELP = "help",
-    WARNING = "warning",
-    SECONDARY = "secondary",
-    INFO = "info",
-    DANGER = "danger",
-    CONTRAST = "contrast",
-}
-
-export const enum CustomInputPrimeClassnames {
-    FORM = "form",
-    SECONDARY = "secondary",
-    DEFAULT = "default",
-}
-
 export const enum ApiEndpoints {
     ITEMS = "items",
     ROOMS = "rooms",
@@ -102,12 +72,18 @@ export const USER_NOT_CONFIRM_VERIFICATION_CODE_ERROR_MESSAGE: string =
     "User needs to be authenticated to call this API.";
 
 export const signInValidationConfig: IValidationConfig = {
-    idList: [FormValidationsFieldsIds.EMAIL, FormValidationsFieldsIds.PASSWORD],
+    idList: [
+        FormValidationsFieldsIds.USERNAME,
+        FormValidationsFieldsIds.PASSWORD,
+    ],
     isConfirmPassword: false,
 };
 
 export const signUpValidationConfig: IValidationConfig = {
-    idList: [FormValidationsFieldsIds.EMAIL, FormValidationsFieldsIds.PASSWORD],
+    idList: [
+        FormValidationsFieldsIds.USERNAME,
+        FormValidationsFieldsIds.PASSWORD,
+    ],
     isConfirmPassword: false,
 };
 

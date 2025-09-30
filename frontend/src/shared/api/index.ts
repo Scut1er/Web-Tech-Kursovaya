@@ -1,15 +1,15 @@
-import { type AxiosRequestConfig } from "axios";
+import { AxiosResponse, type AxiosRequestConfig } from "axios";
 import { TApiMethods } from "@utils/constants";
 import { axiosApi } from "@shared/axios";
 
 class API {
-    public static apiRequest(
+    public static async apiRequest(
         method: TApiMethods,
         url: string,
         body?: any,
         config?: AxiosRequestConfig<any>
     ) {
-        return axiosApi.request({
+        const response: AxiosResponse = await axiosApi.request({
             method,
             url,
             data: body,
@@ -18,6 +18,8 @@ class API {
             },
             ...config,
         });
+
+        return response.data;
     }
 }
 

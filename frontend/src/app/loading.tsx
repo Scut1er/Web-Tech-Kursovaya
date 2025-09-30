@@ -1,8 +1,8 @@
-import FullScreenLoader from "@common/FullScreenLoader/ui";
+import PageLoader from "@common/PageLoader/ui";
 import type { ReactElement } from "react";
 
 const Loading = (): ReactElement => {
-    return <FullScreenLoader />;
+    return <PageLoader />;
 };
 
 export default Loading;

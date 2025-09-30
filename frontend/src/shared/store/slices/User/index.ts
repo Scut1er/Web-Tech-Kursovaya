@@ -21,6 +21,10 @@ const userSlice: Slice<IUserSlice> = createSlice({
         setIsUserAuthorized: (state, action: PayloadAction<boolean>) => {
             state.isUserAuthorized = action.payload;
         },
+        updateAuthSession: (state, action: PayloadAction<IUser>) => {
+            state.data = action.payload;
+            state.isUserAuthorized = true;
+        },
         resetSession: (state, _action: PayloadAction<null>) => {
             state.isUserAuthorized = false;
             state.data = null;
@@ -28,6 +32,7 @@ const userSlice: Slice<IUserSlice> = createSlice({
     },
 });
 
-export const { setData, setIsUserAuthorized, resetSession } = userSlice.actions;
+export const { setData, setIsUserAuthorized, updateAuthSession, resetSession } =
+    userSlice.actions;
 
 export default userSlice.reducer;

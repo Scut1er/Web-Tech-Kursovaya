@@ -19,7 +19,7 @@ const ValidationPassword = ({
 }: TValidationPasswordProps): ReactElement => {
     return (
         <div>
-            <div className={rest.invalid ? "mb-[1rem]" : ""}>
+            <div style={{ marginBottom: rest.invalid ? "1rem" : "" }}>
                 <Password
                     className={rest.className}
                     name={rest.name}

@@ -1,13 +1,20 @@
-import { ChangeEvent, FormEvent, useState, type ReactElement } from "react";
-import { ValidationInputText } from "@common/ValidationInputText";
-import { ValidationPassword } from "@common/ValidationPassword";
-import { AuthErrorText } from "@common/AuthErrorText";
+import API from "@shared/api";
+import { ChangeEvent, FormEvent, type ReactElement, useState } from "react";
+import { ValidationInputText } from "@shared/common/ValidationInputText";
+import { ValidationPassword } from "@shared/common/ValidationPassword";
 import { setIsLoading } from "@store/slices/Application";
+import { AuthErrorText } from "@common/AuthErrorText";
 import { Button } from "primereact/button";
 import { useDispatch } from "react-redux";
+import { IAuthSession } from "@entities/User/types";
+import { setData, updateAuthSession } from "@store/slices/User";
+import { useRouter } from "next/navigation";
+import useFormValidation, {
+    FormValidationsFieldsIds,
+} from "@hooks/useFormValidation";
 import {
-    CustomButtonPrimeClassnames,
-    CustomInputPrimeClassnames,
+    ApiEndpoints,
+    routesData,
     signUpValidationConfig,
     ValidationErrors,
 } from "@utils/constants";
@@ -15,71 +22,83 @@ import {
     AnimatedComponentWrapper,
     ComponentAnimationsTypes,
 } from "@shared/wrappers/AnimatedComponentWrapper";
-import useFormValidation, {
-    FormValidationsFieldsIds,
-} from "@hooks/useFormValidation";
+import ErrorParser, {
+    SpecialErrorMessages,
+} from "@shared/services/ErrorParser";
+import "./style.css";
 
 const SignUpForm = (): ReactElement => {
     const dispatch = useDispatch();
+    const router = useRouter();
 
-    const { values, visibleErrors, handleChange, isValid } = useFormValidation(
+    const { values, handleChange, isValid, errors } = useFormValidation(
         signUpValidationConfig
     );
 
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string>("");
 
-    const handleFormChange = (event: ChangeEvent<HTMLInputElement>): void => {
+    const handleFormChange = (event: ChangeEvent<HTMLInputElement>) => {
         setError("");
         handleChange(event);
     };
 
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-
         try {
-            dispatch(setIsLoading(true));
+            setIsLoading(true);
 
-            // await AuthorizationService.signUp({
-            //     email: values[FormValidationsFieldsIds.EMAIL],
-            //     password: values[FormValidationsFieldsIds.PASSWORD],
-            // });
+            const authSession: IAuthSession = await API.apiRequest(
+                "post",
+                ApiEndpoints.REGISTRATION,
+                {
+                    username: values[FormValidationsFieldsIds.USERNAME],
+                    password: values[FormValidationsFieldsIds.PASSWORD],
+                }
+            );
 
-            // dispatch(
-            //     updateCredentials({
-            //         email: values[FormValidationsFieldsIds.EMAIL],
-            //         password: values[FormValidationsFieldsIds.PASSWORD],
-            //     })
-            // );
-        } catch (error: any) {
-            setError(error.message);
+            dispatch(updateAuthSession(authSession.user));
+
+            router.push(routesData.LOBBY.path);
+        } catch (error: unknown) {
+            const errorMessage: string = ErrorParser.parseAxiosError(error);
+
+            if (errorMessage === SpecialErrorMessages.USER_ALREADY_EXIST) {
+                router.push(routesData.LOBBY.path);
+
+                return;
+            }
+
+            setError(ErrorParser.parseAxiosError(error));
         } finally {
-            dispatch(setIsLoading(false));
+            setIsLoading(false);
         }
     };
 
+    const isEmptyField =
+        !values[FormValidationsFieldsIds.USERNAME] ||
+        !values[FormValidationsFieldsIds.PASSWORD];
+
     return (
-        <div className="sign-up-form">
-            <form className="w-full" onSubmit={handleSubmit}>
-                <div className="mb-[1rem] flex flex-col gap-[0.5rem]">
+        <div className="auth-form">
+            <form onSubmit={handleSubmit}>
+                <div className="auth-form-group typography-body">
                     <ValidationInputText
-                        type="email"
-                        name={FormValidationsFieldsIds.EMAIL}
-                        className={`${CustomInputPrimeClassnames.FORM} w-full`}
+                        className="auth-form-input"
+                        name={FormValidationsFieldsIds.USERNAME}
+                        value={values[FormValidationsFieldsIds.USERNAME]}
+                        placeholder="Username"
                         onChange={handleFormChange}
-                        value={values[FormValidationsFieldsIds.EMAIL]}
-                        placeholder="Email"
-                        invalid={visibleErrors[FormValidationsFieldsIds.EMAIL]}
-                        validationMessage={ValidationErrors.EMAIL}
+                        invalid={errors[FormValidationsFieldsIds.USERNAME]}
+                        validationMessage={ValidationErrors.USERNAME}
                     />
                     <ValidationPassword
+                        className="auth-form-input"
                         name={FormValidationsFieldsIds.PASSWORD}
-                        onChange={handleFormChange}
-                        className={`${CustomInputPrimeClassnames.FORM} w-full`}
                         value={values[FormValidationsFieldsIds.PASSWORD]}
                         placeholder="Password"
-                        invalid={
-                            visibleErrors[FormValidationsFieldsIds.PASSWORD]
-                        }
+                        onChange={handleFormChange}
+                        invalid={errors[FormValidationsFieldsIds.PASSWORD]}
                         toggleMask
                         validationMessage={ValidationErrors.PASSWORD}
                     />
@@ -88,15 +107,16 @@ const SignUpForm = (): ReactElement => {
                     isVisible={!!error}
                     animationType={ComponentAnimationsTypes.FADE_EXPAND}
                 >
-                    <div className="mb-[1rem]">
+                    <div className="auth-form-error typography-accent">
                         <AuthErrorText label={error} />
                     </div>
                 </AnimatedComponentWrapper>
                 <Button
                     type="submit"
-                    className={`${CustomButtonPrimeClassnames.PRIMARY} w-full`}
                     label="Sign Up"
-                    disabled={!isValid}
+                    className="auth-form-button typography-body"
+                    disabled={isEmptyField || !isValid}
+                    loading={isLoading}
                 />
             </form>
         </div>

@@ -5,6 +5,7 @@ import {
     AnimatedComponentWrapper,
     ComponentAnimationsTypes,
 } from "@shared/wrappers/AnimatedComponentWrapper";
+import "./style.css";
 
 export interface IValidationInputTextUniqueProps {
     validationMessage: string;
@@ -18,7 +19,7 @@ const ValidationInputText = ({
     ...rest
 }: TValidationInputTextProps): ReactElement => {
     return (
-        <div className="flex flex-col gap-[1rem]">
+        <div className="validation-input">
             <div>
                 <InputText
                     type={rest.type}

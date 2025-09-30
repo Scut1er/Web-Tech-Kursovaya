@@ -1,8 +1,8 @@
 "use client";
 
+import useDebounce from "./useDebounce";
 import { checkFormValidity, validationActionsConfig } from "@utils/constants";
 import { ChangeEvent, useEffect, useState } from "react";
-import useDebounce from "./useDebounce";
 
 export const enum FormValidationsFieldsIds {
     EMAIL = "email",
