@@ -2,6 +2,7 @@
 
 import ErrorParser from "@shared/services/ErrorParser";
 import { addNotification } from "@store/slices/Notifications";
+import { EditItemButton } from "@features/EditItemButton/ui";
 import { InputSwitch } from "primereact/inputswitch";
 import { IItem } from "@entities/Item/types";
 import { Button } from "primereact/button";
@@ -77,6 +78,7 @@ export const ItemCard = ({ roomId, item }: ItemCardProps): ReactElement => {
                     onChange={handleToggle}
                     disabled={toggleLoading}
                 />
+                <EditItemButton item={item} roomId={roomId} />
                 <Button
                     className="item-card-delete"
                     label="Delete"

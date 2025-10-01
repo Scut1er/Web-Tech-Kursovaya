@@ -213,6 +213,71 @@ body {
   background-color: var(--color-primary);
 }
 
+.app-dialog-root {
+    background: var(--color-surface);
+    color: var(--color-text);
+    border-radius: 0.75rem;
+    box-shadow: var(--card-box-shadow);
+}
+
+.app-dialog-mask {
+    background-color: var(--background-hide);
+}
+
+.app-dialog-content {
+    padding: 1rem;
+}
+
+.app-dialog-header {
+    border-bottom: 1px solid var(--color-border);
+    padding: 0.75rem 1rem;
+    font-weight: 600;
+}
+
+.app-dialog-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    border-top: 1px solid var(--color-border);
+    background: var(--color-bg-secondary);
+}
+
+.app-dialog-close-button {
+    background: transparent;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0.25rem;
+    border-radius: 0.5rem;
+    transition: background-color 0.2s ease;
+}
+
+.app-dialog-close-button:hover {
+    background-color: rgba(244, 67, 54, 0.1);
+}
+
+.app-dialog-close-button:active {
+    background-color: rgba(244, 67, 54, 0.2);
+}
+
+.app-dialog-close-icon {
+    color: var(--color-text-muted);
+    font-size: 1.25rem;
+    transition: color 0.2s ease;
+    cursor: pointer;
+}
+
+.app-dialog-close-icon:hover {
+    color: var(--color-danger);
+}
+
+.app-dialog-close-icon:active {
+    color: var(--color-danger-active);
+}
+
 .typography-heading {
   font-size: 2rem;
   letter-spacing: -0.5px;
