@@ -1,11 +1,11 @@
-import {
-    ApiEndpoints,
-    routesData,
-    signInValidationConfig,
-} from "@utils/constants";
-import { AuthErrorText } from "@common/AuthErrorText";
+import API from "@shared/api";
+import ErrorParser from "@shared/services/ErrorParser";
+import { addNotification } from "@store/slices/Notifications";
+import { updateAuthSession } from "@store/slices/User";
 import { AppDispatch, TRootState } from "@store/index";
 import { useDispatch, useSelector } from "react-redux";
+import { AuthErrorText } from "@common/AuthErrorText";
+import { IAuthSession } from "@entities/User/types";
 import { InputText } from "primereact/inputtext";
 import { Password } from "primereact/password";
 import { Button } from "primereact/button";
@@ -18,6 +18,13 @@ import {
     ComponentAnimationsTypes,
 } from "@shared/wrappers/AnimatedComponentWrapper";
 import {
+    ApiEndpoints,
+    NotificationsMessages,
+    NotificationsSeverityTypes,
+    routesData,
+    signInValidationConfig,
+} from "@utils/constants";
+import {
     type ChangeEvent,
     type FormEvent,
     type ReactElement,
@@ -25,11 +32,6 @@ import {
     useState,
 } from "react";
 import "./style.css";
-import { IAuthSession } from "@entities/User/types";
-import API from "@shared/api";
-
-import { setData, updateAuthSession } from "@store/slices/User";
-import ErrorParser from "@shared/services/ErrorParser";
 
 const SignInForm = (): ReactElement => {
     const dispatch = useDispatch<AppDispatch>();
@@ -66,6 +68,13 @@ const SignInForm = (): ReactElement => {
             );
 
             dispatch(updateAuthSession(authSession.user));
+
+            dispatch(
+                addNotification({
+                    text: NotificationsMessages.USER_SIGNED_IN,
+                    severity: NotificationsSeverityTypes.SUCCESS,
+                })
+            );
 
             router.push(routesData.LOBBY.path);
         } catch (error: unknown) {
@@ -118,7 +127,7 @@ const SignInForm = (): ReactElement => {
                 <Button
                     label="Sign in"
                     type="submit"
-                    className={`auth-form-button typography-body`}
+                    className={`auth-form-button`}
                     disabled={isEmptyField}
                     loading={isLoading}
                 />
