@@ -2,7 +2,7 @@
 
 import ErrorParser from "@shared/services/ErrorParser";
 import { addNotification } from "@store/slices/Notifications";
-import { EditItemButton } from "@features/EditItemButton/ui";
+import { EditItemButton } from "@features/EditItemButton";
 import { InputSwitch } from "primereact/inputswitch";
 import { IItem } from "@entities/Item/types";
 import { Button } from "primereact/button";

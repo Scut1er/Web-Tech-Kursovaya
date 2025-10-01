@@ -4,8 +4,9 @@ import ErrorParser from "@shared/services/ErrorParser";
 import { addNotification } from "@store/slices/Notifications";
 import { NotificationsSeverityTypes } from "@utils/constants";
 import { useUpdateItemMutation } from "@entities/Room/api";
-import { Fragment, ReactElement, useState } from "react";
-import { EditItemModal } from "@widgets/EditItemModal";
+import { type ReactElement, useState } from "react";
+import { ItemModal } from "@widgets/ItemModal";
+import { ItemForm } from "@features/ItemForm";
 import { IItem } from "@entities/Item/types";
 import { Button } from "primereact/button";
 import { useDispatch } from "react-redux";
@@ -15,24 +16,26 @@ interface EditItemButtonProps {
     roomId: string;
 }
 
-export const EditItemButton = ({
+const EditItemButton = ({
     item,
     roomId,
 }: EditItemButtonProps): ReactElement => {
     const dispatch = useDispatch();
 
-    const [visible, setVisible] = useState(false);
     const [updateItem, { isLoading }] = useUpdateItemMutation();
+
+    const [visible, setVisible] = useState<boolean>(false);
 
     const handleSave = async (
         data: Pick<IItem, "name" | "quantity" | "category">
-    ) => {
+    ): Promise<void> => {
         try {
             await updateItem({
                 roomId,
                 itemId: item.id,
                 itemUserChangeData: data,
             }).unwrap();
+
             setVisible(false);
         } catch (error: unknown) {
             dispatch(
@@ -45,19 +48,26 @@ export const EditItemButton = ({
     };
 
     return (
-        <Fragment>
+        <div className="edit-item-button">
             <Button
                 label="Edit"
                 onClick={() => setVisible(true)}
                 disabled={isLoading}
             />
-            <EditItemModal
+            <ItemModal
                 visible={visible}
                 onHide={() => setVisible(false)}
-                item={item}
-                onSave={handleSave}
-                loading={isLoading}
-            />
-        </Fragment>
+                header="Edit Item"
+            >
+                <ItemForm
+                    initialData={item}
+                    onSubmit={handleSave}
+                    submitLabel="Save"
+                    loading={isLoading}
+                />
+            </ItemModal>
+        </div>
     );
 };
+
+export default EditItemButton;

@@ -3,12 +3,13 @@
 import ErrorParser from "@shared/services/ErrorParser";
 import { ProductsSkeletons } from "@shared/common/ProductsSkeletons";
 import { addNotification } from "@store/slices/Notifications";
+import { CreateItemButton } from "@features/CreateItemButton";
 import { NotificationsSeverityTypes } from "@utils/constants";
 import { useLoadItemsQuery } from "@entities/Room/api";
+import { Fragment, ReactElement } from "react";
 import { ItemCard } from "@features/ItemCard";
 import { IItem } from "@entities/Item/types";
 import { useDispatch } from "react-redux";
-import { ReactElement } from "react";
 import "./style.css";
 
 interface ItemsListProps {
@@ -37,7 +38,12 @@ export const ItemsList = ({ roomId }: ItemsListProps): ReactElement => {
     }
 
     if (!data.length) {
-        return <div className="items-list-empty">No items found</div>;
+        return (
+            <Fragment>
+                <CreateItemButton roomId={roomId} />
+                <div className="items-list-empty">No items found</div>;
+            </Fragment>
+        );
     }
 
     const filteredData = [...data].sort(
@@ -47,6 +53,7 @@ export const ItemsList = ({ roomId }: ItemsListProps): ReactElement => {
 
     return (
         <div className="items-list">
+            <CreateItemButton roomId={roomId} />
             {filteredData.map((item: IItem) => (
                 <ItemCard key={item.id} item={item} roomId={roomId} />
             ))}
