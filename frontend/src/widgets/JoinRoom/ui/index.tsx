@@ -1,7 +1,7 @@
 import ErrorParser from "@shared/services/ErrorParser";
 import { addNotification } from "@store/slices/Notifications";
+import { useJoinRoomMutation } from "@entities/UserRooms/api";
 import { ChangeEvent, ReactElement, useState } from "react";
-import { useJoinRoomMutation } from "@entities/Room/api";
 import { InputText } from "primereact/inputtext";
 import { useRouter } from "next/navigation";
 import { Button } from "primereact/button";

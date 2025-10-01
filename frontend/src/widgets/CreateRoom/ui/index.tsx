@@ -1,9 +1,9 @@
 import ErrorParser from "@shared/services/ErrorParser";
 import { addNotification } from "@store/slices/Notifications";
+import { useCreateRoomMutation } from "@entities/UserRooms/api";
 import { ChangeEvent, ReactElement, useState } from "react";
-import { useCreateRoomMutation } from "@entities/Room/api";
 import { InputText } from "primereact/inputtext";
-import { IRoom } from "@entities/Room/types";
+import { IRoom } from "@entities/UserRooms/types";
 import { useRouter } from "next/navigation";
 import { Button } from "primereact/button";
 import { useDispatch } from "react-redux";

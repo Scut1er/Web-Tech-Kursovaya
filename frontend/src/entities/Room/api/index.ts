@@ -1,49 +1,70 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { type IRoom } from "@entities/Room/types";
+import { type IRoom } from "@entities/UserRooms/types";
 import { ApiEndpoints } from "@utils/constants";
+import { IItem } from "@entities/Item/types";
 
-export interface IJoinRoomRequest {
+export interface IGetRoomDataBaseRequest {
     public_id: string;
 }
 
-export interface ICreateRoomRequest {
-    name: string;
+export interface IMutationRoomDataBaseRequest {
+    roomId: string;
+    itemId: number;
 }
 
-export interface IDeleteRoomRequest {
-    public_id: string;
+export type TItemUserChangeData = Pick<IItem, "name" | "quantity" | "category">;
+
+export interface IItemCreateRequest
+    extends Omit<IMutationRoomDataBaseRequest, "itemId"> {
+    itemUserChangeData: TItemUserChangeData;
 }
 
-export const userRoomsApi = createApi({
+export interface IItemUpdateRequest extends IMutationRoomDataBaseRequest {
+    itemUserChangeData: TItemUserChangeData;
+}
+
+export const roomApi = createApi({
     reducerPath: "userRoomsApi",
     baseQuery: fetchBaseQuery({
         baseUrl: process.env.NEXT_PUBLIC_BASE_API_URL,
         credentials: "include",
     }),
-    tagTypes: ["Rooms"],
+    tagTypes: ["Room"],
     endpoints: (builder) => ({
-        loadRooms: builder.query<IRoom[], void>({
-            query: () => ApiEndpoints.ROOMS_MY,
-            providesTags: ["Rooms"],
+        loadItems: builder.query<IItem[], IGetRoomDataBaseRequest>({
+            query: (payload) =>
+                `${ApiEndpoints.ROOMS}/${payload.public_id}/${ApiEndpoints.ITEMS}`,
+            providesTags: ["Room"],
         }),
-        createRoom: builder.mutation<IRoom, ICreateRoomRequest>({
+        createItem: builder.mutation<IItem, IItemCreateRequest>({
             query: (payload) => ({
-                url: ApiEndpoints.ROOM_CREATE,
+                url: `${ApiEndpoints.ROOMS}/${payload.roomId}/${ApiEndpoints.ITEMS}`,
                 method: "POST",
-                body: payload,
+                body: payload.itemUserChangeData,
             }),
-            invalidatesTags: ["Rooms"],
+            invalidatesTags: ["Room"],
         }),
-        deleteRoom: builder.mutation<void, IDeleteRoomRequest>({
+        updateItem: builder.mutation<IItem, IItemUpdateRequest>({
             query: (payload) => ({
-                url: `${ApiEndpoints.ROOMS}/${payload.public_id}`,
+                url: `${ApiEndpoints.ROOMS}/${payload.roomId}/${ApiEndpoints.ITEMS}/${payload.itemId}`,
+                method: "PATCH",
+                body: payload.itemUserChangeData,
+            }),
+            invalidatesTags: ["Room"],
+        }),
+        deleteItem: builder.mutation<void, IMutationRoomDataBaseRequest>({
+            query: (payload) => ({
+                url: `${ApiEndpoints.ROOMS}/${payload.roomId}/${ApiEndpoints.ITEMS}/${payload.itemId}`,
                 method: "DELETE",
             }),
-            invalidatesTags: ["Rooms"],
+            invalidatesTags: ["Room"],
         }),
-        joinRoom: builder.mutation<IRoom, IJoinRoomRequest>({
+        toggleItemPurchased: builder.mutation<
+            IRoom,
+            IMutationRoomDataBaseRequest
+        >({
             query: (payload) => ({
-                url: `${ApiEndpoints.ROOMS}/join`,
+                url: `${ApiEndpoints.ROOMS}/${payload.roomId}/${ApiEndpoints.ITEMS}/${payload.itemId}/${ApiEndpoints.TOGGLE}`,
                 method: "POST",
                 body: payload,
             }),
@@ -52,8 +73,9 @@ export const userRoomsApi = createApi({
 });
 
 export const {
-    useLoadRoomsQuery,
-    useCreateRoomMutation,
-    useDeleteRoomMutation,
-    useJoinRoomMutation,
-} = userRoomsApi;
+    useLoadItemsQuery,
+    useCreateItemMutation,
+    useUpdateItemMutation,
+    useDeleteItemMutation,
+    useToggleItemPurchasedMutation,
+} = roomApi;

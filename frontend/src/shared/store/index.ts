@@ -3,7 +3,7 @@ import RoomReducer from "./slices/Room";
 import ApplicationReducer from "./slices/Application";
 import NotificationsReducer from "./slices/Notifications";
 import { configureStore } from "@reduxjs/toolkit";
-import { userRoomsApi } from "@entities/Room/api";
+import { userRoomsApi } from "@entities/UserRooms/api";
 
 const store = configureStore({
     reducer: {

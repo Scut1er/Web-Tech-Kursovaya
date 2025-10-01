@@ -1,6 +1,6 @@
 import { createSlice, type Slice, type PayloadAction } from "@reduxjs/toolkit";
 import type { IUserPersonalData } from "@entities/User/types";
-import type { IRoom } from "@entities/Room/types";
+import type { IRoom } from "@entities/UserRooms/types";
 
 export interface IUserPersonalDataSlice {
     personalData: IUserPersonalData | null;

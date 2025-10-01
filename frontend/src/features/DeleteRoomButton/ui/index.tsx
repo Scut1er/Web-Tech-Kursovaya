@@ -1,6 +1,6 @@
 import ErrorParser from "@shared/services/ErrorParser";
 import { addNotification } from "@store/slices/Notifications";
-import { useDeleteRoomMutation } from "@entities/Room/api";
+import { useDeleteRoomMutation } from "@entities/UserRooms/api";
 import { Button } from "primereact/button";
 import { useDispatch } from "react-redux";
 import { ReactElement } from "react";
