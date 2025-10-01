@@ -1,6 +1,7 @@
 import React from "react";
+import { JoinInRoomButton } from "@features/JoinInRoomButton";
+import { DeleteRoomButton } from "@features/DeleteRoomButton";
 import { IRoom } from "@entities/Room/types";
-import { Button } from "primereact/button";
 import "./style.css";
 
 interface IRoomCardProps {
@@ -23,12 +24,8 @@ export const RoomCard = ({ room }: IRoomCardProps) => {
             </div>
 
             <div className="room-card-actions">
-                <Button label="Join" onClick={() => {}} />
-                <Button
-                    className="room-card-delete"
-                    label="Delete"
-                    onClick={() => {}}
-                />
+                <JoinInRoomButton roomPublicId={room.public_id} />
+                <DeleteRoomButton roomPublicId={room.public_id} />
             </div>
         </div>
     );

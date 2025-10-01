@@ -6,16 +6,12 @@ export interface IJoinRoomRequest {
     public_id: string;
 }
 
-export interface IJoinRoomResponse {
-    room: IRoom;
-}
-
 export interface ICreateRoomRequest {
     name: string;
 }
 
 export interface IDeleteRoomRequest {
-    public_id: number;
+    public_id: string;
 }
 
 export const userRoomsApi = createApi({
@@ -45,7 +41,7 @@ export const userRoomsApi = createApi({
             }),
             invalidatesTags: ["Rooms"],
         }),
-        joinRoom: builder.mutation<IJoinRoomResponse, IJoinRoomRequest>({
+        joinRoom: builder.mutation<IRoom, IJoinRoomRequest>({
             query: (payload) => ({
                 url: `${ApiEndpoints.ROOMS}/join`,
                 method: "POST",

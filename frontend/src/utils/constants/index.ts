@@ -123,6 +123,7 @@ export const enum NotificationsMessages {
     ITEMS_LOADED = "Items successfully loaded!",
     ROOM_CREATED = "Room successfully created!",
     ROOM_JOINED = "You have joined the room!",
+    ROOM_DELETED = "You have deleted the room!",
     ROOMS_FETCHED = "Your rooms have been loaded!",
     USER_REGISTERED = "Registration successful! Please, Sign In!",
     ALREADY_REGISTERED = "You already registered, please Sign In!",

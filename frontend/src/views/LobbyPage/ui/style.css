@@ -8,11 +8,6 @@
   color: var(--color-text);
 }
 
-.lobby-header {
-  text-align: center;
-  color: var(--color-primary);
-}
-
 .lobby-create-room,
 .lobby-my-rooms {
   display: flex;

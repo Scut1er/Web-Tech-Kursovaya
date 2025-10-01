@@ -10,7 +10,9 @@ const LobbyPage = (): ReactElement => {
     return (
         <ProtectedRoute>
             <div className="lobby-page">
-                <div className="lobby-header typography-heading">Lobby</div>
+                <div className="lobby-header typography-heading-primary">
+                    Lobby
+                </div>
                 <CreateRoom />
                 <RoomsList />
             </div>

@@ -32,16 +32,3 @@
   justify-content: flex-end;
   gap: 0.5rem;
 }
-
-.room-card-delete {
-  background: var(--color-danger);
-  color: var(--color-surface);
-}
-
-.room-card-delete:hover {
-  background: #e53935;
-}
-
-.room-card-delete:active {
-  background: #c62828;
-}
