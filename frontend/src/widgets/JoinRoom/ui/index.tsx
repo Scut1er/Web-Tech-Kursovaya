@@ -1,46 +1,44 @@
 import ErrorParser from "@shared/services/ErrorParser";
 import { addNotification } from "@store/slices/Notifications";
 import { ChangeEvent, ReactElement, useState } from "react";
-import { useCreateRoomMutation } from "@entities/Room/api";
+import { useJoinRoomMutation } from "@entities/Room/api";
 import { InputText } from "primereact/inputtext";
-import { IRoom } from "@entities/Room/types";
 import { useRouter } from "next/navigation";
 import { Button } from "primereact/button";
 import { useDispatch } from "react-redux";
 import {
-    isValidRoomName,
     NotificationsMessages,
     NotificationsSeverityTypes,
     routesData,
 } from "@utils/constants";
 import "./style.css";
 
-const CreateRoom = (): ReactElement => {
+const JoinRoom = (): ReactElement => {
     const dispatch = useDispatch();
     const router = useRouter();
 
-    const [createRoom, { isLoading }] = useCreateRoomMutation();
+    const [joinRoom, { isLoading }] = useJoinRoomMutation();
 
-    const [newRoomName, setNewRoomName] = useState<string>("");
+    const [joinRoomId, setJoinRoomId] = useState<string>("");
 
-    const handleNameChange = (event: ChangeEvent<HTMLInputElement>): void => {
-        setNewRoomName(event.target.value);
+    const handleIdChange = (event: ChangeEvent<HTMLInputElement>): void => {
+        setJoinRoomId(event.target.value);
     };
 
-    const handleCreateRoom = async () => {
+    const handleJoinRoom = async () => {
         try {
-            const createdRoom: IRoom = await createRoom({
-                name: newRoomName,
+            await joinRoom({
+                public_id: joinRoomId,
             }).unwrap();
 
             dispatch(
                 addNotification({
-                    text: NotificationsMessages.ROOM_CREATED,
+                    text: NotificationsMessages.ROOM_JOINED,
                     severity: NotificationsSeverityTypes.SUCCESS,
                 })
             );
 
-            router.push(`${routesData.ROOM.path}/${createdRoom.public_id}`);
+            router.push(`${routesData.ROOM.path}/${joinRoomId}`);
         } catch (error: unknown) {
             dispatch(
                 addNotification({
@@ -51,27 +49,26 @@ const CreateRoom = (): ReactElement => {
         }
     };
 
-    const isValid: boolean = isValidRoomName(newRoomName);
-
     return (
-        <div className="lobby-create-room">
-            <div className="typography-subheading">Create a Family Room</div>
-            <div className="lobby-create-room-controls">
+        <div className="lobby-join-room">
+            <div className="typography-subheading">
+                Join in Family Room by public id
+            </div>
+            <div className="lobby-join-room-controls">
                 <InputText
-                    placeholder="Room name"
-                    value={newRoomName}
-                    onChange={handleNameChange}
+                    placeholder="Room id"
+                    value={joinRoomId}
+                    onChange={handleIdChange}
                     className="app-input-root"
                 />
                 <Button
-                    label="Create"
-                    onClick={handleCreateRoom}
+                    label="Join by public id"
+                    onClick={handleJoinRoom}
                     loading={isLoading}
-                    disabled={!isValid}
                 />
             </div>
         </div>
     );
 };
 
-export default CreateRoom;
+export default JoinRoom;

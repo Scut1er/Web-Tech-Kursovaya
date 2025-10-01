@@ -3,6 +3,7 @@
 import { ProtectedRoute } from "@shared/wrappers/ProtectedRoute";
 import { CreateRoom } from "@widgets/CreateRoom";
 import { RoomsList } from "@widgets/RoomsList";
+import { JoinRoom } from "@widgets/JoinRoom";
 import { type ReactElement } from "react";
 import "./style.css";
 
@@ -14,6 +15,7 @@ const LobbyPage = (): ReactElement => {
                     Lobby
                 </div>
                 <CreateRoom />
+                <JoinRoom />
                 <RoomsList />
             </div>
         </ProtectedRoute>

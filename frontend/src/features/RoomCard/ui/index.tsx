@@ -13,7 +13,7 @@ export const RoomCard = ({ room }: IRoomCardProps) => {
         <div className="room-card">
             <div className="room-card-header">
                 <h3 className="typography-card-title">{room.name}</h3>
-                <span className="typography-card-id">#{room.public_id}</span>
+                <span className="typography-card-id">{room.public_id}</span>
             </div>
 
             <div className="room-card-body">
