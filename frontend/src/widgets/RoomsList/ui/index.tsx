@@ -12,9 +12,9 @@ import "./style.css";
 const RoomsList = (): ReactElement => {
     const dispatch = useDispatch();
 
-    const { data, isLoading, error } = useLoadRoomsQuery();
+    const { data, isFetching, error } = useLoadRoomsQuery();
 
-    if (isLoading) {
+    if (isFetching) {
         return <ProductsSkeletons />;
     }
 

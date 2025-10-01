@@ -17,9 +17,11 @@ interface ItemsListProps {
 
 export const ItemsList = ({ roomId }: ItemsListProps): ReactElement => {
     const dispatch = useDispatch();
-    const { data, isLoading, error } = useLoadItemsQuery({ public_id: roomId });
+    const { data, isFetching, error } = useLoadItemsQuery({
+        public_id: roomId,
+    });
 
-    if (isLoading) {
+    if (isFetching) {
         return <ProductsSkeletons />;
     }
 

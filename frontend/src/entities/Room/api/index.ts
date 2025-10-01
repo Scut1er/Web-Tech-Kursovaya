@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { type IRoom } from "@entities/UserRooms/types";
 import { ApiEndpoints } from "@utils/constants";
+import { IDish } from "@entities/Recipe/type";
 import { IItem } from "@entities/Item/types";
 
 export interface IGetRoomDataBaseRequest {
@@ -23,18 +24,28 @@ export interface IItemUpdateRequest extends IMutationRoomDataBaseRequest {
     itemUserChangeData: TItemUserChangeData;
 }
 
+export interface IRecipesResponse {
+    provider: string;
+    dishes: IDish[];
+}
+
 export const roomApi = createApi({
     reducerPath: "roomApi",
     baseQuery: fetchBaseQuery({
         baseUrl: process.env.NEXT_PUBLIC_BASE_API_URL,
         credentials: "include",
     }),
-    tagTypes: ["Room"],
+    tagTypes: ["RoomItems", "RoomRecipes"],
     endpoints: (builder) => ({
         loadItems: builder.query<IItem[], IGetRoomDataBaseRequest>({
             query: (payload) =>
                 `${ApiEndpoints.ROOMS}/${payload.public_id}/${ApiEndpoints.ITEMS}`,
-            providesTags: ["Room"],
+            providesTags: ["RoomItems"],
+        }),
+        loadRecipes: builder.query<IRecipesResponse, IGetRoomDataBaseRequest>({
+            query: (payload) =>
+                `${ApiEndpoints.ROOMS}/${payload.public_id}/${ApiEndpoints.AI_RECIPES}?provider=mistral`,
+            providesTags: ["RoomRecipes"],
         }),
         createItem: builder.mutation<IItem, IItemCreateRequest>({
             query: (payload) => ({
@@ -42,7 +53,7 @@ export const roomApi = createApi({
                 method: "POST",
                 body: payload.itemUserChangeData,
             }),
-            invalidatesTags: ["Room"],
+            invalidatesTags: ["RoomItems"],
         }),
         updateItem: builder.mutation<IItem, IItemUpdateRequest>({
             query: (payload) => ({
@@ -50,14 +61,14 @@ export const roomApi = createApi({
                 method: "PATCH",
                 body: payload.itemUserChangeData,
             }),
-            invalidatesTags: ["Room"],
+            invalidatesTags: ["RoomItems"],
         }),
         deleteItem: builder.mutation<void, IMutationRoomDataBaseRequest>({
             query: (payload) => ({
                 url: `${ApiEndpoints.ROOMS}/${payload.roomId}/${ApiEndpoints.ITEMS}/${payload.itemId}`,
                 method: "DELETE",
             }),
-            invalidatesTags: ["Room"],
+            invalidatesTags: ["RoomItems"],
         }),
         toggleItemPurchased: builder.mutation<
             IRoom,
@@ -68,13 +79,14 @@ export const roomApi = createApi({
                 method: "POST",
                 body: payload,
             }),
-            invalidatesTags: ["Room"],
+            invalidatesTags: ["RoomItems"],
         }),
     }),
 });
 
 export const {
     useLoadItemsQuery,
+    useLoadRecipesQuery,
     useCreateItemMutation,
     useUpdateItemMutation,
     useDeleteItemMutation,

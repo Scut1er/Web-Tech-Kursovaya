@@ -4,5 +4,5 @@ export interface IDish {
 }
 
 export interface IRecipe {
-    dishes: IDish;
+    dishes: IDish[];
 }

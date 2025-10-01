@@ -1,6 +1,7 @@
 "use client";
 
 import { ProtectedRoute } from "@shared/wrappers/ProtectedRoute";
+import { RecipesList } from "@widgets/RecipesList";
 import { IRoom } from "@entities/UserRooms/types";
 import { RoomHeader } from "@features/RoomHeader";
 import { ItemsList } from "@widgets/ItemsList";
@@ -30,7 +31,9 @@ const RoomPage = (): ReactElement => {
                     <div className="items-column">
                         <ItemsList roomId={roomId} />
                     </div>
-                    <div className="recipes-column"></div>
+                    <div className="recipes-column">
+                        <RecipesList roomId={roomId} />
+                    </div>
                 </div>
             </div>
         </ProtectedRoute>
