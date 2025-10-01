@@ -1,9 +1,9 @@
 import ErrorParser from "@shared/services/ErrorParser";
 import { addNotification } from "@store/slices/Notifications";
-import { useJoinRoomMutation } from "@entities/Room/api";
+import { useJoinRoomMutation } from "@entities/UserRooms/api";
+import { IRoom } from "@entities/UserRooms/types";
 import { setRoomData } from "@store/slices/Room";
 import { ReactElement, useEffect } from "react";
-import { IRoom } from "@entities/Room/types";
 import { useRouter } from "next/navigation";
 import { Button } from "primereact/button";
 import { useDispatch } from "react-redux";

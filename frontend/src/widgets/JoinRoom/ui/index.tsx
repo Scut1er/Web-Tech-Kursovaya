@@ -1,8 +1,10 @@
 import ErrorParser from "@shared/services/ErrorParser";
 import { addNotification } from "@store/slices/Notifications";
+import { useJoinRoomMutation } from "@entities/UserRooms/api";
 import { ChangeEvent, ReactElement, useState } from "react";
-import { useJoinRoomMutation } from "@entities/Room/api";
+import { IRoom } from "@entities/UserRooms/types";
 import { InputText } from "primereact/inputtext";
+import { setRoomData } from "@store/slices/Room";
 import { useRouter } from "next/navigation";
 import { Button } from "primereact/button";
 import { useDispatch } from "react-redux";
@@ -27,9 +29,11 @@ const JoinRoom = (): ReactElement => {
 
     const handleJoinRoom = async () => {
         try {
-            await joinRoom({
+            const joinedRoom: IRoom = await joinRoom({
                 public_id: joinRoomId,
             }).unwrap();
+
+            dispatch(setRoomData(joinedRoom));
 
             dispatch(
                 addNotification({
