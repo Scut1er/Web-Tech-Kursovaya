@@ -1,4 +1,4 @@
-import LobbyPage from "@views/LobbyPage";
+import { LobbyPage } from "@views/LobbyPage";
 import { ReactElement } from "react";
 
 const Lobby = (): ReactElement => {

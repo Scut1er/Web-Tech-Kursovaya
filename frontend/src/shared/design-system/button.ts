@@ -5,9 +5,10 @@ import {
 
 const buttonDesignSystem: ButtonPassThroughOptions = {
     root: ({ props }: ButtonPassThroughMethodOptions) => ({
-        className: `app-button-root ${props.loading ? "loading" : ""}`,
+        className: `app-button-root typography-body-primary ${
+            props.loading ? "loading" : ""
+        } ${props.disabled ? "disabled" : ""}`,
     }),
-    label: { className: "app-button-label" },
     loadingIcon: { className: "app-button-loading-icon" },
 };
 

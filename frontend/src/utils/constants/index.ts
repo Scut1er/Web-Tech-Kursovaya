@@ -61,15 +61,27 @@ export const enum ValidationErrors {
     USERNAME = "Username must be 3–20 characters long and contain only letters, numbers, underscores, or periods.",
 }
 
+export const enum NotificationsSeverityTypes {
+    SUCCESS = "success",
+    INFO = "info",
+    WARN = "warn",
+    ERROR = "error",
+    SECONDARY = "secondary",
+    CONTRAST = "contrast",
+}
+
 const PASSWORD_REGEX: RegExp =
     /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{}|;:',.<>/?`~"\\]).{8,}$/;
 const EMAIL_REGEX: RegExp =
     /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/;
 const VERIFICATION_CODE_REGEX: RegExp = /^[0-9]{6}$/;
 const USERNAME_REGEX: RegExp = /^[a-zA-Z0-9_.]{3,20}$/;
+const ROOM_NAME_REGEX: RegExp = /^.{1,128}$/;
 
 export const USER_NOT_CONFIRM_VERIFICATION_CODE_ERROR_MESSAGE: string =
     "User needs to be authenticated to call this API.";
+
+export const SHOW_NOTIFICATION_DELAY: number = 3000;
 
 export const signInValidationConfig: IValidationConfig = {
     idList: [
@@ -102,6 +114,25 @@ const isValidPassword = (password: string): boolean => {
 const isValidUsername = (username: string): boolean => {
     return USERNAME_REGEX.test(username);
 };
+
+export const isValidRoomName = (roomName: string): boolean => {
+    return ROOM_NAME_REGEX.test(roomName);
+};
+
+export const enum NotificationsMessages {
+    ITEMS_LOADED = "Items successfully loaded!",
+    ROOM_CREATED = "Room successfully created!",
+    ROOM_JOINED = "You have joined the room!",
+    ROOM_DELETED = "You have deleted the room!",
+    ROOMS_FETCHED = "Your rooms have been loaded!",
+    USER_REGISTERED = "Registration successful! Please, Sign In!",
+    ALREADY_REGISTERED = "You already registered, please Sign In!",
+    USER_SIGNED_IN = "Signed in successfully!",
+    USER_SIGNED_OUT = "Signed out successfully!",
+    TOGGLE_SUCCESS = "Toggled successfully!",
+    UNDO_SUCCESS = "Action undone successfully!",
+    AI_RECIPES_GENERATED = "AI recipes generated successfully!",
+}
 
 export const validationActionsConfig: Record<
     FormValidationsFieldsIds,
