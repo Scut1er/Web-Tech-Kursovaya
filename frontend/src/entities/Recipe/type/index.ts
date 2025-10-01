@@ -1,11 +1,8 @@
+export interface IDish {
+    title: string;
+    need?: string[];
+}
+
 export interface IRecipe {
-    id: number;
-    room_id: number;
-    name: string;
-    quantity: string;
-    is_purchased: boolean;
-    purchased_at: string | null;
-    created_at: string;
-    updated_at: string;
-    deleted_at: string | null;
+    dishes: IDish;
 }

@@ -1,0 +1,22 @@
+.room-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.room-header-info {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.room-header-id {
+  color: var(--color-text-muted);
+}
+
+.room-header-date {
+  color: var(--color-text-muted);
+}

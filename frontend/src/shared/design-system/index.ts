@@ -3,6 +3,7 @@ import buttonDesignSystem from "./button";
 import messageDesignSystem from "./message";
 import passwordDesignSystem from "./password";
 import inputTextDesignSystem from "./inputtext";
+import inputSwitchDesignSystem from "./inputswitch";
 import { type PrimeReactPTOptions } from "primereact/api";
 
 const DesignSystem: PrimeReactPTOptions = {
@@ -11,6 +12,7 @@ const DesignSystem: PrimeReactPTOptions = {
     password: passwordDesignSystem,
     badge: badgeDesignSystem,
     message: messageDesignSystem,
+    inputswitch: inputSwitchDesignSystem,
 };
 
 export default DesignSystem;

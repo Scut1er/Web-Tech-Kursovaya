@@ -24,7 +24,7 @@ export interface IItemUpdateRequest extends IMutationRoomDataBaseRequest {
 }
 
 export const roomApi = createApi({
-    reducerPath: "userRoomsApi",
+    reducerPath: "roomApi",
     baseQuery: fetchBaseQuery({
         baseUrl: process.env.NEXT_PUBLIC_BASE_API_URL,
         credentials: "include",
@@ -68,6 +68,7 @@ export const roomApi = createApi({
                 method: "POST",
                 body: payload,
             }),
+            invalidatesTags: ["Room"],
         }),
     }),
 });
