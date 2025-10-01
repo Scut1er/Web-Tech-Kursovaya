@@ -2,9 +2,9 @@ import ErrorParser from "@shared/services/ErrorParser";
 import { ProductsSkeletons } from "@shared/common/ProductsSkeletons";
 import { addNotification } from "@store/slices/Notifications";
 import { NotificationsSeverityTypes } from "@utils/constants";
-import { useLoadRoomsQuery } from "@entities/Room/api";
+import { useLoadRoomsQuery } from "@entities/UserRooms/api";
+import { IRoom } from "@entities/UserRooms/types";
 import { RoomCard } from "@features/RoomCard";
-import { IRoom } from "@entities/Room/types";
 import { useDispatch } from "react-redux";
 import { ReactElement } from "react";
 import "./style.css";
@@ -12,9 +12,9 @@ import "./style.css";
 const RoomsList = (): ReactElement => {
     const dispatch = useDispatch();
 
-    const { data, isLoading, error } = useLoadRoomsQuery();
+    const { data, isFetching, error } = useLoadRoomsQuery();
 
-    if (isLoading) {
+    if (isFetching) {
         return <ProductsSkeletons />;
     }
 

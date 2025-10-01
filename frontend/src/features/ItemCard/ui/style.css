@@ -1,0 +1,39 @@
+.item-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  background: var(--color-surface);
+  box-shadow: var(--card-box-shadow);
+  gap: 1rem;
+}
+
+.item-card.purchased {
+  border: 0.1rem solid var(--color-primary, #4caf50);
+}
+
+.item-card-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.item-card-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.item-card-delete {
+  background: var(--color-danger);
+  color: var(--color-surface);
+}
+
+.item-card-delete:hover {
+  background: var(--color-danger-hover, #e53935);
+}
+
+.item-card-delete:active {
+  background: var(--color-danger-active, #c62828);
+}

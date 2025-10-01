@@ -1,7 +1,7 @@
 import React from "react";
 import { JoinInRoomButton } from "@features/JoinInRoomButton";
 import { DeleteRoomButton } from "@features/DeleteRoomButton";
-import { IRoom } from "@entities/Room/types";
+import { IRoom } from "@entities/UserRooms/types";
 import "./style.css";
 
 interface IRoomCardProps {

@@ -132,6 +132,8 @@ export const enum NotificationsMessages {
     TOGGLE_SUCCESS = "Toggled successfully!",
     UNDO_SUCCESS = "Action undone successfully!",
     AI_RECIPES_GENERATED = "AI recipes generated successfully!",
+    ITEM_DELETED = "Item successfully deleted!",
+    ITEM_PURCHASED_TOGGLED = "Item purchase status successfully toggled!",
 }
 
 export const validationActionsConfig: Record<

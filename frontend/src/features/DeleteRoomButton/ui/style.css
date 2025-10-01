@@ -4,9 +4,9 @@
 }
 
 .room-card-delete:hover {
-  background: #e53935;
+  background: var(--color-danger-hover, #e53935);
 }
 
 .room-card-delete:active {
-  background: #c62828;
+  background: var(--color-danger-active, #c62828);
 }
