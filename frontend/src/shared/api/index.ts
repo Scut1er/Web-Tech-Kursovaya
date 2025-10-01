@@ -17,6 +17,7 @@ class API {
                 ...config?.headers,
             },
             ...config,
+            withCredentials: true,
         });
 
         return response.data;

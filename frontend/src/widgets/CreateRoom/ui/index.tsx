@@ -1,20 +1,46 @@
-import { useCreateRoomMutation } from "@entities/Room/api";
 import ErrorParser from "@shared/services/ErrorParser";
-import { setIsLoading } from "@store/slices/Application";
+import { addNotification } from "@store/slices/Notifications";
+import { useCreateRoomMutation } from "@entities/Room/api";
 import { InputText } from "primereact/inputtext";
 import { ReactElement, useState } from "react";
 import { Button } from "primereact/button";
+import { useDispatch } from "react-redux";
+import {
+    isValidRoomName,
+    NotificationsMessages,
+    NotificationsSeverityTypes,
+} from "@utils/constants";
 
 const CreateRoom = (): ReactElement => {
-    const [newRoomName, setNewRoomName] = useState<string>("");
+    const dispatch = useDispatch();
 
     const [createRoom, { isLoading }] = useCreateRoomMutation();
 
-    const handleCreateRoom = async () => {
-        const room = await createRoom({ name: newRoomName }).unwrap();
+    const [newRoomName, setNewRoomName] = useState<string>("");
 
-        console.log("Created room:", room);
+    const handleCreateRoom = async () => {
+        try {
+            await createRoom({
+                name: newRoomName,
+            }).unwrap();
+
+            dispatch(
+                addNotification({
+                    text: NotificationsMessages.ROOM_CREATED,
+                    severity: NotificationsSeverityTypes.SUCCESS,
+                })
+            );
+        } catch (error: unknown) {
+            dispatch(
+                addNotification({
+                    text: ErrorParser.parseAxiosError(error),
+                    severity: NotificationsSeverityTypes.ERROR,
+                })
+            );
+        }
     };
+
+    const isValid: boolean = isValidRoomName(newRoomName);
 
     return (
         <div className="lobby-create-room">
@@ -28,9 +54,9 @@ const CreateRoom = (): ReactElement => {
                 />
                 <Button
                     label="Create"
-                    className="app-button-root"
                     onClick={handleCreateRoom}
                     loading={isLoading}
+                    disabled={!isValid}
                 />
             </div>
         </div>

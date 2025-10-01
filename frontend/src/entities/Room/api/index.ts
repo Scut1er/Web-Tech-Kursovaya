@@ -18,10 +18,6 @@ export interface ICreateRoomRequest {
     name: string;
 }
 
-export interface ICreateRoomResponse {
-    room: IRoom;
-}
-
 export interface IDeleteRoomRequest {
     public_id: number;
 }
@@ -38,7 +34,7 @@ export const userRoomsApi = createApi({
             query: () => ApiEndpoints.ROOMS,
             providesTags: ["Rooms"],
         }),
-        createRoom: builder.mutation<ICreateRoomResponse, ICreateRoomRequest>({
+        createRoom: builder.mutation<IRoom, ICreateRoomRequest>({
             query: (payload) => ({
                 url: ApiEndpoints.ROOM_CREATE,
                 method: "POST",
@@ -59,7 +55,6 @@ export const userRoomsApi = createApi({
                 method: "POST",
                 body: payload,
             }),
-            invalidatesTags: ["Rooms"],
         }),
     }),
 });

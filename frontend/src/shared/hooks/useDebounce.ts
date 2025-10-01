@@ -1,7 +1,10 @@
 import { useRef, useState } from "react";
 
 interface IUseDebounceReturn {
-    runDebounced: <T>(callback: () => T) => void;
+    runDebounced: <T>(
+        callback: () => T,
+        isClearPreviousProcess?: boolean
+    ) => void;
     rejectDebounceCallback: () => void;
     isRunningDebounced: boolean;
 }
@@ -15,8 +18,11 @@ const useDebounce = (
 
     const timeoutIdRef = useRef<NodeJS.Timeout | null>(null);
 
-    const runDebounced = <T>(callback: () => T): void => {
-        if (timeoutIdRef.current) {
+    const runDebounced = <T>(
+        callback: () => T,
+        isClearPreviousProcess: boolean = true
+    ): void => {
+        if (timeoutIdRef.current && isClearPreviousProcess) {
             clearTimeout(timeoutIdRef.current);
         }
 

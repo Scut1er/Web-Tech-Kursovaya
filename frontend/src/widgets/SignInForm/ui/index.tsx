@@ -1,5 +1,6 @@
 import API from "@shared/api";
 import ErrorParser from "@shared/services/ErrorParser";
+import { addNotification } from "@store/slices/Notifications";
 import { updateAuthSession } from "@store/slices/User";
 import { AppDispatch, TRootState } from "@store/index";
 import { useDispatch, useSelector } from "react-redux";
@@ -18,6 +19,8 @@ import {
 } from "@shared/wrappers/AnimatedComponentWrapper";
 import {
     ApiEndpoints,
+    NotificationsMessages,
+    NotificationsSeverityTypes,
     routesData,
     signInValidationConfig,
 } from "@utils/constants";
@@ -65,6 +68,13 @@ const SignInForm = (): ReactElement => {
             );
 
             dispatch(updateAuthSession(authSession.user));
+
+            dispatch(
+                addNotification({
+                    text: NotificationsMessages.USER_SIGNED_IN,
+                    severity: NotificationsSeverityTypes.SUCCESS,
+                })
+            );
 
             router.push(routesData.LOBBY.path);
         } catch (error: unknown) {
@@ -117,7 +127,7 @@ const SignInForm = (): ReactElement => {
                 <Button
                     label="Sign in"
                     type="submit"
-                    className={`auth-form-button typography-body`}
+                    className={`auth-form-button`}
                     disabled={isEmptyField}
                     loading={isLoading}
                 />
