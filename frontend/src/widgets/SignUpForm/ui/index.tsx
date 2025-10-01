@@ -2,13 +2,12 @@ import API from "@shared/api";
 import { ChangeEvent, FormEvent, type ReactElement, useState } from "react";
 import { ValidationInputText } from "@shared/common/ValidationInputText";
 import { ValidationPassword } from "@shared/common/ValidationPassword";
-import { setIsLoading } from "@store/slices/Application";
+import { updateAuthSession } from "@store/slices/User";
 import { AuthErrorText } from "@common/AuthErrorText";
+import { IAuthSession } from "@entities/User/types";
+import { useRouter } from "next/navigation";
 import { Button } from "primereact/button";
 import { useDispatch } from "react-redux";
-import { IAuthSession } from "@entities/User/types";
-import { setData, updateAuthSession } from "@store/slices/User";
-import { useRouter } from "next/navigation";
 import useFormValidation, {
     FormValidationsFieldsIds,
 } from "@hooks/useFormValidation";

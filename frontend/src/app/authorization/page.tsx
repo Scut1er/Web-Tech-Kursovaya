@@ -1,4 +1,4 @@
-import AuthorizationPage from "@views/AuthorizationPage";
+import { AuthorizationPage } from "@views/AuthorizationPage";
 import { type ReactElement } from "react";
 
 const Authorization = (): ReactElement => {

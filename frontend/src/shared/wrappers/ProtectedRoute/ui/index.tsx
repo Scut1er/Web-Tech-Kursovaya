@@ -2,12 +2,12 @@
 
 import API from "@shared/api";
 import ErrorParser from "@shared/services/ErrorParser";
+import { resetSession, setIsUserAuthorized } from "@store/slices/User";
 import { AppDispatch, type TRootState } from "@store/index";
+import { ApiEndpoints, routesData } from "@utils/constants";
 import { PropsWithChildren, useLayoutEffect } from "react";
 import { setIsLoading } from "@store/slices/Application";
 import { useDispatch, useSelector } from "react-redux";
-import { ApiEndpoints, routesData } from "@utils/constants";
-import { resetSession, setIsUserAuthorized } from "@store/slices/User";
 import { useRouter } from "next/navigation";
 
 const ProtectedRoute = ({ children }: PropsWithChildren) => {

@@ -1,11 +1,10 @@
-import {
-    ApiEndpoints,
-    routesData,
-    signInValidationConfig,
-} from "@utils/constants";
-import { AuthErrorText } from "@common/AuthErrorText";
+import API from "@shared/api";
+import ErrorParser from "@shared/services/ErrorParser";
+import { updateAuthSession } from "@store/slices/User";
 import { AppDispatch, TRootState } from "@store/index";
 import { useDispatch, useSelector } from "react-redux";
+import { AuthErrorText } from "@common/AuthErrorText";
+import { IAuthSession } from "@entities/User/types";
 import { InputText } from "primereact/inputtext";
 import { Password } from "primereact/password";
 import { Button } from "primereact/button";
@@ -18,6 +17,11 @@ import {
     ComponentAnimationsTypes,
 } from "@shared/wrappers/AnimatedComponentWrapper";
 import {
+    ApiEndpoints,
+    routesData,
+    signInValidationConfig,
+} from "@utils/constants";
+import {
     type ChangeEvent,
     type FormEvent,
     type ReactElement,
@@ -25,11 +29,6 @@ import {
     useState,
 } from "react";
 import "./style.css";
-import { IAuthSession } from "@entities/User/types";
-import API from "@shared/api";
-
-import { setData, updateAuthSession } from "@store/slices/User";
-import ErrorParser from "@shared/services/ErrorParser";
 
 const SignInForm = (): ReactElement => {
     const dispatch = useDispatch<AppDispatch>();

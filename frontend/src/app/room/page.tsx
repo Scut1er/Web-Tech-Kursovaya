@@ -1,4 +1,4 @@
-import RoomPage from "@views/RoomPage";
+import { RoomPage } from "@views/RoomPage";
 import { ReactElement } from "react";
 
 const Room = (): ReactElement => {

@@ -2,20 +2,71 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { type IRoom } from "@entities/Room/types";
 import { ApiEndpoints } from "@utils/constants";
 
+export interface IJoinRoomRequest {
+    public_id: string;
+}
+
+export interface IJoinRoomResponse {
+    room: IRoom;
+}
+
 export interface ILoadRoomsResponse {
     rooms: IRoom[];
 }
 
-export const roomApi = createApi({
-    reducerPath: "roomApi",
+export interface ICreateRoomRequest {
+    name: string;
+}
+
+export interface ICreateRoomResponse {
+    room: IRoom;
+}
+
+export interface IDeleteRoomRequest {
+    public_id: number;
+}
+
+export const userRoomsApi = createApi({
+    reducerPath: "userRoomsApi",
     baseQuery: fetchBaseQuery({
         baseUrl: process.env.NEXT_PUBLIC_BASE_API_URL,
+        credentials: "include",
     }),
+    tagTypes: ["Rooms"],
     endpoints: (builder) => ({
         loadRooms: builder.query<ILoadRoomsResponse, void>({
             query: () => ApiEndpoints.ROOMS,
+            providesTags: ["Rooms"],
+        }),
+        createRoom: builder.mutation<ICreateRoomResponse, ICreateRoomRequest>({
+            query: (payload) => ({
+                url: ApiEndpoints.ROOM_CREATE,
+                method: "POST",
+                body: payload,
+            }),
+            invalidatesTags: ["Rooms"],
+        }),
+        deleteRoom: builder.mutation<void, IDeleteRoomRequest>({
+            query: (payload) => ({
+                url: `${ApiEndpoints.ROOMS}/${payload.public_id}`,
+                method: "DELETE",
+            }),
+            invalidatesTags: ["Rooms"],
+        }),
+        joinRoom: builder.mutation<IJoinRoomResponse, IJoinRoomRequest>({
+            query: (payload) => ({
+                url: `${ApiEndpoints.ROOMS}/join`,
+                method: "POST",
+                body: payload,
+            }),
+            invalidatesTags: ["Rooms"],
         }),
     }),
 });
 
-export const { useLoadRoomsQuery } = roomApi;
+export const {
+    useLoadRoomsQuery,
+    useCreateRoomMutation,
+    useDeleteRoomMutation,
+    useJoinRoomMutation,
+} = userRoomsApi;

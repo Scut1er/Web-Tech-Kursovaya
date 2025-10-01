@@ -1,24 +1,24 @@
 import { createSlice, type PayloadAction, type Slice } from "@reduxjs/toolkit";
-import type { IProduct } from "@entities/Item/types";
+import type { IItem } from "@entities/Item/types";
 
 export interface IRoomSlice {
-    loadedProducts: IProduct[];
+    loadedItems: IItem[];
 }
 
 const initialState: IRoomSlice = {
-    loadedProducts: [],
+    loadedItems: [],
 };
 
 const roomSlice: Slice<IRoomSlice> = createSlice({
     name: "room",
     initialState,
     reducers: {
-        setProducts: (state, action: PayloadAction<IProduct[]>) => {
-            state.loadedProducts = action.payload;
+        setItems: (state, action: PayloadAction<IItem[]>) => {
+            state.loadedItems = action.payload;
         },
     },
 });
 
-export const { setProducts } = roomSlice.actions;
+export const { setItems } = roomSlice.actions;
 
 export default roomSlice.reducer;
