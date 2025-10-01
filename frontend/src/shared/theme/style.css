@@ -1,5 +1,6 @@
 :root {
   --color-bg: #fdfdfb;
+  --color-bg-secondary: #f8f8f6;
   --color-surface: #ffffff;
   --color-border: #e2e2e2;
 
@@ -214,6 +215,21 @@ body {
   line-height: 1.5;
   font-weight: 500;
   color: var(--color-danger);
+}
+
+.typography-card-title {
+  font-size: 1.25rem;
+  letter-spacing: 0;
+  line-height: 1.5;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.typography-card-id {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: var(--color-text-muted);
 }
 
 @keyframes spin {

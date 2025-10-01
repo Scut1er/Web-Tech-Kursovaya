@@ -10,10 +10,6 @@ export interface IJoinRoomResponse {
     room: IRoom;
 }
 
-export interface ILoadRoomsResponse {
-    rooms: IRoom[];
-}
-
 export interface ICreateRoomRequest {
     name: string;
 }
@@ -30,8 +26,8 @@ export const userRoomsApi = createApi({
     }),
     tagTypes: ["Rooms"],
     endpoints: (builder) => ({
-        loadRooms: builder.query<ILoadRoomsResponse, void>({
-            query: () => ApiEndpoints.ROOMS,
+        loadRooms: builder.query<IRoom[], void>({
+            query: () => ApiEndpoints.ROOMS_MY,
             providesTags: ["Rooms"],
         }),
         createRoom: builder.mutation<IRoom, ICreateRoomRequest>({
