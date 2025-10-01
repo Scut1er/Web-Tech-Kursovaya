@@ -1,38 +1,52 @@
 import { createSlice, type Slice, type PayloadAction } from "@reduxjs/toolkit";
-import type { IUser } from "@entities/User/types";
+import type { IUserPersonalData } from "@entities/User/types";
+import type { IRoom } from "@entities/UserRooms/types";
 
-export interface IUserSlice {
-    data: IUser | null;
+export interface IUserPersonalDataSlice {
+    personalData: IUserPersonalData | null;
+    rooms: IRoom[];
     isUserAuthorized: boolean;
 }
 
-const initialState: IUserSlice = {
-    data: null,
+const initialState: IUserPersonalDataSlice = {
+    personalData: null,
+    rooms: [],
     isUserAuthorized: false,
 };
 
-const userSlice: Slice<IUserSlice> = createSlice({
+const userSlice: Slice<IUserPersonalDataSlice> = createSlice({
     name: "user",
     initialState,
     reducers: {
-        setData: (state, action: PayloadAction<IUser>) => {
-            state.data = action.payload;
+        setPersonalData: (state, action: PayloadAction<IUserPersonalData>) => {
+            state.personalData = action.payload;
+        },
+        setRooms: (state, action: PayloadAction<IRoom[]>) => {
+            state.rooms = action.payload;
         },
         setIsUserAuthorized: (state, action: PayloadAction<boolean>) => {
             state.isUserAuthorized = action.payload;
         },
-        updateAuthSession: (state, action: PayloadAction<IUser>) => {
-            state.data = action.payload;
+        updateAuthSession: (
+            state,
+            action: PayloadAction<IUserPersonalData>
+        ) => {
+            state.personalData = action.payload;
             state.isUserAuthorized = true;
         },
         resetSession: (state, _action: PayloadAction<null>) => {
             state.isUserAuthorized = false;
-            state.data = null;
+            state.personalData = null;
         },
     },
 });
 
-export const { setData, setIsUserAuthorized, updateAuthSession, resetSession } =
-    userSlice.actions;
+export const {
+    setPersonalData,
+    setRooms,
+    setIsUserAuthorized,
+    updateAuthSession,
+    resetSession,
+} = userSlice.actions;
 
 export default userSlice.reducer;

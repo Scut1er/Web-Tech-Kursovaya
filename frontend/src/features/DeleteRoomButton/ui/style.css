@@ -1,0 +1,12 @@
+.room-card-delete {
+  background: var(--color-danger);
+  color: var(--color-surface);
+}
+
+.room-card-delete:hover {
+  background: var(--color-danger-hover, #e53935);
+}
+
+.room-card-delete:active {
+  background: var(--color-danger-active, #c62828);
+}

@@ -1,4 +1,4 @@
-export interface IUser {
+export interface IUserPersonalData {
     id: number;
     username: number;
     created_at: string;
@@ -6,5 +6,5 @@ export interface IUser {
 
 export interface IAuthSession {
     token: string;
-    user: IUser;
+    user: IUserPersonalData;
 }
