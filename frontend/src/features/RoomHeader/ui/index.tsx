@@ -1,6 +1,7 @@
 "use client";
 
 import LeaveRoomButton from "@features/LeaveRoomButton/ui";
+import { RoomParticipantsList } from "@widgets/RoomParticipantsList";
 import { DeleteRoomButton } from "@features/DeleteRoomButton";
 import { IUserPersonalData } from "@entities/User/types";
 import type { IRoom } from "@entities/UserRooms/types";
@@ -34,7 +35,11 @@ const RoomHeader = ({ room }: RoomHeaderProps): ReactNode => {
     return (
         <div className="room-header">
             <div className="room-header-left">
-                <div className="typography-heading-primary">{room.name}</div>
+                <div className="room-header-title">
+                    <div className="typography-heading-primary-not-center">
+                        {room.name}
+                    </div>
+                </div>
                 <div className="room-header-info">
                     <span className="room-header-id typography-caption">
                         {room.public_id}
@@ -43,6 +48,14 @@ const RoomHeader = ({ room }: RoomHeaderProps): ReactNode => {
                         Created at: {new Date(room.created_at).toLocaleString()}
                     </span>
                 </div>
+                <div className="room-participants-header typography-subheading">
+                    Participants
+                </div>
+                <RoomParticipantsList
+                    currentUserId={userPersonalData.id}
+                    roomId={room.public_id}
+                    isOwner={isRoomOwner}
+                />
             </div>
             <div className="room-header-right">
                 <LinkButton

@@ -28,7 +28,13 @@ export const RecipesList = ({ roomId }: RecipesListProps): ReactElement => {
     useQueryRefetchManager(refetch, RECIPES_REFETCH_INTERVAL);
 
     if (isFetching) {
-        return <ProductsSkeletons />;
+        return (
+            <ProductsSkeletons
+                listStyles={{ maxHeight: "100%", padding: "1rem" }}
+                skeletonStyles={{ height: "7rem" }}
+                skeletonsCount={5}
+            />
+        );
     }
 
     if (error || !data) {

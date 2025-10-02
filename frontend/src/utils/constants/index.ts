@@ -53,6 +53,7 @@ export const enum ApiEndpoints {
     TOGGLE = "toggle",
     UNDO = "undo",
     AI_RECIPES = "ai/recipes",
+    MEMBERS = "members",
 }
 
 export const enum ValidationErrors {

@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { TRoomParticipant } from "@entities/User/types";
 import { type IRoom } from "@entities/UserRooms/types";
 import { ApiEndpoints } from "@utils/constants";
 import { IDish } from "@entities/Recipe/type";
@@ -35,7 +36,7 @@ export const roomApi = createApi({
         baseUrl: process.env.NEXT_PUBLIC_BASE_API_URL,
         credentials: "include",
     }),
-    tagTypes: ["RoomItems", "RoomRecipes"],
+    tagTypes: ["RoomItems", "RoomRecipes", "RoomParticipants"],
     endpoints: (builder) => ({
         loadItems: builder.query<IItem[], IGetRoomDataBaseRequest>({
             query: (payload) =>
@@ -46,6 +47,14 @@ export const roomApi = createApi({
             query: (payload) =>
                 `${ApiEndpoints.ROOMS}/${payload.public_id}/${ApiEndpoints.AI_RECIPES}?provider=mistral`,
             providesTags: ["RoomRecipes"],
+        }),
+        loadParticipants: builder.query<
+            TRoomParticipant[],
+            IGetRoomDataBaseRequest
+        >({
+            query: (payload) =>
+                `${ApiEndpoints.ROOMS}/${payload.public_id}/${ApiEndpoints.MEMBERS}`,
+            providesTags: ["RoomParticipants"],
         }),
         createItem: builder.mutation<IItem, IItemCreateRequest>({
             query: (payload) => ({
@@ -87,6 +96,7 @@ export const roomApi = createApi({
 export const {
     useLoadItemsQuery,
     useLoadRecipesQuery,
+    useLoadParticipantsQuery,
     useCreateItemMutation,
     useUpdateItemMutation,
     useDeleteItemMutation,

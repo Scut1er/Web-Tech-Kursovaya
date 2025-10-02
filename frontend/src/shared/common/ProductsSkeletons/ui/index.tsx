@@ -1,12 +1,24 @@
 import { ProductSkeleton } from "@shared/common/ProductSkeleton";
-import { type ReactElement } from "react";
+import { CSSProperties, type ReactElement } from "react";
 import "./style.css";
 
-const ProductsSkeletons = (): ReactElement => {
+export interface IProductsSkeletonsProps {
+    listStyles?: CSSProperties;
+    skeletonStyles?: CSSProperties;
+    skeletonsCount?: number;
+}
+
+const DEFAULT_SKELETONS_COUNT: number = 6;
+
+const ProductsSkeletons = ({
+    listStyles,
+    skeletonStyles,
+    skeletonsCount = DEFAULT_SKELETONS_COUNT,
+}: IProductsSkeletonsProps): ReactElement => {
     return (
-        <div className="products-skeletons-list">
-            {Array.from({ length: 6 }).map((_, index: number) => (
-                <ProductSkeleton key={index} />
+        <div className="products-skeletons-list" style={listStyles}>
+            {Array.from({ length: skeletonsCount }).map((_, index: number) => (
+                <ProductSkeleton key={index} styles={skeletonStyles} />
             ))}
         </div>
     );

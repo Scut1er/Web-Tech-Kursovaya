@@ -21,7 +21,13 @@ const RoomsList = (): ReactElement => {
     const { data, isFetching, error } = useLoadRoomsQuery();
 
     if (isFetching) {
-        return <ProductsSkeletons />;
+        return (
+            <ProductsSkeletons
+                listStyles={{ maxHeight: "100%" }}
+                skeletonStyles={{ height: "15rem" }}
+                skeletonsCount={4}
+            />
+        );
     }
 
     if (!!error || !data || !userPersonalData) {
