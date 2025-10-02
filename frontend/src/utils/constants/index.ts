@@ -134,6 +134,7 @@ export const enum NotificationsMessages {
     AI_RECIPES_GENERATED = "AI recipes generated successfully!",
     ITEM_DELETED = "Item successfully deleted!",
     ITEM_PURCHASED_TOGGLED = "Item purchase status successfully toggled!",
+    ROOM_NOT_LOADED = "Room not loaded!",
 }
 
 export const validationActionsConfig: Record<

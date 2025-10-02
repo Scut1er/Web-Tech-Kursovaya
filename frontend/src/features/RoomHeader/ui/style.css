@@ -32,3 +32,17 @@
 .room-header-date {
   color: var(--color-text-muted);
 }
+
+.return-button {
+  background: var(--color-secondary);
+  color: var(--color-surface);
+}
+
+.return-button:hover {
+  background: var(--color-secondary-hover);
+}
+
+.return-button:active {
+  background: var(--color-secondary-active);
+}
+
