@@ -2,10 +2,11 @@
 
 import API from "@shared/api";
 import ErrorParser from "@shared/services/ErrorParser";
-import { resetSession, setIsUserAuthorized } from "@store/slices/User";
+import { resetSession, updateAuthSession } from "@store/slices/User";
 import { addNotification } from "@store/slices/Notifications";
 import { AppDispatch, type TRootState } from "@store/index";
 import { PropsWithChildren, useLayoutEffect } from "react";
+import { IUserPersonalData } from "@entities/User/types";
 import { setIsLoading } from "@store/slices/Application";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
@@ -27,9 +28,14 @@ const ProtectedRoute = ({ children }: PropsWithChildren) => {
         try {
             dispatch(setIsLoading(true));
 
-            await API.apiRequest("get", ApiEndpoints.ROOMS_MY);
+            const userPersonalData: IUserPersonalData = await API.apiRequest(
+                "get",
+                ApiEndpoints.FETCH_SESSION
+            );
 
-            dispatch(setIsUserAuthorized(true));
+            console.log("FETCHED USER PERSONAL DATA: ", userPersonalData);
+
+            dispatch(updateAuthSession(userPersonalData));
         } catch (error: unknown) {
             dispatch(
                 addNotification({

@@ -6,9 +6,12 @@ import "./style.css";
 
 interface IRoomCardProps {
     room: IRoom;
+    userId: number;
 }
 
-export const RoomCard = ({ room }: IRoomCardProps) => {
+export const RoomCard = ({ room, userId }: IRoomCardProps) => {
+    const isUserOwner: boolean = userId === room.created_by;
+
     return (
         <div className="room-card">
             <div className="room-card-header">
@@ -25,7 +28,9 @@ export const RoomCard = ({ room }: IRoomCardProps) => {
 
             <div className="room-card-actions">
                 <JoinInRoomButton roomPublicId={room.public_id} />
-                <DeleteRoomButton roomPublicId={room.public_id} />
+                {isUserOwner && (
+                    <DeleteRoomButton roomPublicId={room.public_id} />
+                )}
             </div>
         </div>
     );

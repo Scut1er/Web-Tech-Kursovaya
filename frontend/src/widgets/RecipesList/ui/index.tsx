@@ -20,9 +20,11 @@ const RECIPES_REFETCH_INTERVAL: number = 30000;
 
 export const RecipesList = ({ roomId }: RecipesListProps): ReactElement => {
     const dispatch = useDispatch();
+
     const { data, isFetching, error, refetch } = useLoadRecipesQuery({
         public_id: roomId,
     });
+
     useQueryRefetchManager(refetch, RECIPES_REFETCH_INTERVAL);
 
     if (isFetching) {

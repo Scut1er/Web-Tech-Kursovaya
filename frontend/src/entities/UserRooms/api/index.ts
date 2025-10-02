@@ -14,6 +14,10 @@ export interface IDeleteRoomRequest {
     public_id: string;
 }
 
+export interface ILeaveRoomRequest {
+    public_id: string;
+}
+
 export const userRoomsApi = createApi({
     reducerPath: "userRoomsApi",
     baseQuery: fetchBaseQuery({
@@ -48,6 +52,12 @@ export const userRoomsApi = createApi({
                 body: payload,
             }),
         }),
+        leaveRoom: builder.mutation<void, ILeaveRoomRequest>({
+            query: (payload) => ({
+                url: `${ApiEndpoints.ROOMS}/${payload.public_id}/${ApiEndpoints.LEAVE}`,
+                method: "POST",
+            }),
+        }),
     }),
 });
 
@@ -56,4 +66,5 @@ export const {
     useCreateRoomMutation,
     useDeleteRoomMutation,
     useJoinRoomMutation,
+    useLeaveRoomMutation,
 } = userRoomsApi;
