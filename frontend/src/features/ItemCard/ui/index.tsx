@@ -26,7 +26,7 @@ interface ItemCardProps {
 export const ItemCard = ({ roomId, item }: ItemCardProps): ReactElement => {
     const dispatch = useDispatch();
 
-    const [deleteItem] = useDeleteItemMutation();
+    const [deleteItem, { isLoading: deleteLoading }] = useDeleteItemMutation();
     const [toggleItemPurchased, { isLoading: toggleLoading }] =
         useToggleItemPurchasedMutation();
 
@@ -62,6 +62,7 @@ export const ItemCard = ({ roomId, item }: ItemCardProps): ReactElement => {
         }
     };
 
+    const toggleLoadingClassname: string = !toggleLoading ? "" : "loading";
     const purchasedClassname: string = !item.is_purchased ? "" : "purchased";
 
     return (
@@ -74,6 +75,7 @@ export const ItemCard = ({ roomId, item }: ItemCardProps): ReactElement => {
             </div>
             <div className="item-card-actions">
                 <InputSwitch
+                    className={toggleLoadingClassname}
                     checked={item.is_purchased}
                     onChange={handleToggle}
                     disabled={toggleLoading}
@@ -83,6 +85,7 @@ export const ItemCard = ({ roomId, item }: ItemCardProps): ReactElement => {
                     className="item-card-delete"
                     label="Delete"
                     onClick={handleDelete}
+                    loading={deleteLoading}
                 />
             </div>
         </div>

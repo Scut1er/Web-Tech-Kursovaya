@@ -128,6 +128,8 @@ body {
   transform: translateY(-10px);
   animation: fadeIn 0.3s forwards;
   transition: opacity 0.3s, transform 0.3s;
+  
+  pointer-events: none;
 }
 
 .app-message-root.success {
@@ -168,6 +170,7 @@ body {
   background-color: var(--color-danger);
   color: var(--color-bg);
 }
+
 .app-inputswitch-root {
   display: inline-flex;
   align-items: center;
@@ -206,11 +209,24 @@ body {
   transform: translateX(1.5rem);
 }
 
-.app-inputswitch-root input:checked {
-}
-
 .app-inputswitch-root input:checked ~ .app-inputswitch-slider {
   background-color: var(--color-primary);
+}
+
+.app-inputswitch-root.loading {
+  cursor: not-allowed;
+  background-color: var(--color-border-disabled, #ccc);
+  opacity: 0.7;
+}
+
+.app-inputswitch-root.loading input[type="checkbox"] {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.app-inputswitch-root.loading .app-inputswitch-slider {
+  background-color: var(--color-border);
+  animation: pulse 1.2s infinite ease-in-out;
 }
 
 .app-dialog-root {
@@ -365,4 +381,10 @@ body {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.1); opacity: 0.6; }
+  100% { transform: scale(1); opacity: 0.8; }
 }
