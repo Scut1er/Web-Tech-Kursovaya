@@ -54,7 +54,7 @@ const RoomHeader = ({ room }: RoomHeaderProps): ReactNode => {
                 <RoomParticipantsList
                     currentUserId={userPersonalData.id}
                     roomId={room.public_id}
-                    isOwner={isRoomOwner}
+                    ownerId={room.created_by}
                 />
             </div>
             <div className="room-header-right">

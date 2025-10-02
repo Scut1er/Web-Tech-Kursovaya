@@ -12,13 +12,13 @@ import "./style.css";
 export interface IRoomParticipantsListProps {
     currentUserId: number;
     roomId: string;
-    isOwner: boolean;
+    ownerId: number;
 }
 
 const RoomParticipantsList = ({
     currentUserId,
     roomId,
-    isOwner,
+    ownerId,
 }: IRoomParticipantsListProps): ReactNode => {
     const dispatch = useDispatch();
 
@@ -60,9 +60,10 @@ const RoomParticipantsList = ({
                 return (
                     <ParticipantCard
                         key={participant.id}
+                        id={participant.user_id}
                         name={participant.username}
                         isActive={participant.user_id === currentUserId}
-                        isOwner={isOwner}
+                        ownerId={ownerId}
                     />
                 );
             })}

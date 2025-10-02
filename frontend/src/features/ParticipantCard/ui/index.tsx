@@ -6,18 +6,20 @@ import { Badge, BadgeProps } from "primereact/badge";
 import { Fragment, ReactElement } from "react";
 
 interface IParticipantCardProps {
+    id: number;
     name: string;
     isActive?: boolean;
-    isOwner: boolean;
+    ownerId: number;
 }
 
 const ParticipantCard = ({
+    id,
     name,
     isActive = false,
-    isOwner,
+    ownerId,
 }: IParticipantCardProps): ReactElement => {
     const valueComponent: BadgeProps["value"] =
-        !isOwner || !isActive ? (
+        ownerId !== id ? (
             name
         ) : (
             <Fragment>
