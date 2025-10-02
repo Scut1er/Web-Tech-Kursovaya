@@ -2,6 +2,8 @@
 
 import { DeleteRoomButton } from "@features/DeleteRoomButton";
 import type { IRoom } from "@entities/UserRooms/types";
+import { LinkButton } from "@shared/common/LinkButton";
+import { routesData } from "@utils/constants";
 import { ReactElement } from "react";
 import "./style.css";
 
@@ -24,6 +26,12 @@ export const RoomHeader = ({ room }: RoomHeaderProps): ReactElement => {
                 </div>
             </div>
             <div className="room-header-right">
+                <LinkButton
+                    href={routesData.LOBBY.path}
+                    label="Return to Lobby"
+                    className="return-button"
+                    icon="pi pi-arrow-left"
+                />
                 <DeleteRoomButton
                     roomPublicId={room.public_id}
                     isRedirectOnLobby
