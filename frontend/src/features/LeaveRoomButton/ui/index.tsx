@@ -1,6 +1,7 @@
 import ErrorParser from "@shared/services/ErrorParser";
 import { useLeaveRoomMutation } from "@entities/UserRooms/api";
 import { addNotification } from "@store/slices/Notifications";
+import { clearRoomData } from "@store/slices/Room";
 import { useRouter } from "next/navigation";
 import { Button } from "primereact/button";
 import { useDispatch } from "react-redux";
@@ -31,6 +32,8 @@ const LeaveRoomButton = ({
             await leaveRoom({
                 public_id: roomPublicId,
             }).unwrap();
+
+            dispatch(clearRoomData(null));
 
             dispatch(
                 addNotification({

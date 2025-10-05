@@ -33,8 +33,6 @@ const ProtectedRoute = ({ children }: PropsWithChildren) => {
                 ApiEndpoints.FETCH_SESSION
             );
 
-            console.log("FETCHED USER PERSONAL DATA: ", userPersonalData);
-
             dispatch(updateAuthSession(userPersonalData));
         } catch (error: unknown) {
             dispatch(

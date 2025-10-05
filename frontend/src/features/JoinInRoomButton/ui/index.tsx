@@ -14,11 +14,15 @@ import {
 } from "@utils/constants";
 
 export interface IJoinInRoomButtonProps {
+    label?: string;
     roomPublicId: string;
 }
 
+const DEFAULT_LABEL: string = "Join";
+
 const JoinInRoomButton = ({
     roomPublicId,
+    label = DEFAULT_LABEL,
 }: IJoinInRoomButtonProps): ReactElement => {
     const dispatch = useDispatch();
     const router = useRouter();
@@ -58,7 +62,7 @@ const JoinInRoomButton = ({
     }, [roomPublicId, isSuccess, router]);
 
     return (
-        <Button label="Join" onClick={handleJoinInRoom} loading={isLoading} />
+        <Button label={label} onClick={handleJoinInRoom} loading={isLoading} />
     );
 };
 

@@ -16,9 +16,12 @@ const roomSlice: Slice<IRoomSlice> = createSlice({
         setRoomData: (state, action: PayloadAction<IRoom>) => {
             state.data = action.payload;
         },
+        clearRoomData: (state, action: PayloadAction<null>) => {
+            state.data = action.payload;
+        },
     },
 });
 
-export const { setRoomData } = roomSlice.actions;
+export const { setRoomData, clearRoomData } = roomSlice.actions;
 
 export default roomSlice.reducer;
