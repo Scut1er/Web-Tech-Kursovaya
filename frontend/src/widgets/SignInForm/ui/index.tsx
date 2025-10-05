@@ -5,7 +5,7 @@ import { updateAuthSession } from "@store/slices/User";
 import { AppDispatch, TRootState } from "@store/index";
 import { useDispatch, useSelector } from "react-redux";
 import { AuthErrorText } from "@common/AuthErrorText";
-import { IAuthSession } from "@entities/User/types";
+import { IAuthBody, IAuthSession } from "@entities/User/types";
 import { InputText } from "primereact/inputtext";
 import { Password } from "primereact/password";
 import { Button } from "primereact/button";
@@ -58,14 +58,13 @@ const SignInForm = (): ReactElement => {
         try {
             setIsLoading(true);
 
-            const authSession: IAuthSession = await API.apiRequest(
-                "post",
-                ApiEndpoints.SIGN_IN,
-                {
-                    username: values[FormValidationsFieldsIds.USERNAME],
-                    password: values[FormValidationsFieldsIds.PASSWORD],
-                }
-            );
+            const authSession: IAuthSession = await API.apiRequest<
+                IAuthSession,
+                IAuthBody
+            >("post", ApiEndpoints.SIGN_IN, {
+                username: values[FormValidationsFieldsIds.USERNAME],
+                password: values[FormValidationsFieldsIds.PASSWORD],
+            });
 
             dispatch(updateAuthSession(authSession.user));
 

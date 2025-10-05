@@ -9,6 +9,11 @@ export interface IAuthSession {
     user: IUserPersonalData;
 }
 
+export interface IAuthBody {
+    username: string;
+    password: string;
+}
+
 export const enum RoomParticipantRoles {
     OWNER = "owner",
 }
