@@ -1,9 +1,7 @@
 import useThrottling from "./useThrottling";
 import { useEffect } from "react";
 
-type TAnyRefetch = (...args: any[]) => Promise<any> | void;
-
-const useQueryRefetchManager = <TRefetch extends TAnyRefetch>(
+const useQueryRefetchManager = <TRefetch extends () => void>(
     refetch: TRefetch,
     interval: number
 ) => {

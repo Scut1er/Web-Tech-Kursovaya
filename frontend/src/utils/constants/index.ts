@@ -45,12 +45,15 @@ export const enum ApiEndpoints {
     ROOM_CREATE = "rooms/create",
     ROOM_JOIN = "rooms/join",
     ROOMS_MY = "rooms/my",
+    LEAVE = "leave",
     REGISTRATION = "auth/register",
     SIGN_IN = "auth/login",
     SIGN_OUT = "auth/logout",
+    FETCH_SESSION = "auth/fetch_session",
     TOGGLE = "toggle",
     UNDO = "undo",
     AI_RECIPES = "ai/recipes",
+    MEMBERS = "members",
 }
 
 export const enum ValidationErrors {
@@ -135,6 +138,9 @@ export const enum NotificationsMessages {
     ITEM_DELETED = "Item successfully deleted!",
     ITEM_PURCHASED_TOGGLED = "Item purchase status successfully toggled!",
     ROOM_NOT_LOADED = "Room not loaded!",
+    ROOM_LEAVED = "You successfully leaved through room!",
+    ROOM_ID_COPIED = "You copied room id to buffer!",
+    RECIPE_SEARCH_OPENED = "You successfully open search with this recipe!",
 }
 
 export const validationActionsConfig: Record<

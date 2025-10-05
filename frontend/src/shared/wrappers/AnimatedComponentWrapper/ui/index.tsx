@@ -43,7 +43,7 @@ const AnimatedComponentWrapper = ({
         }, DEFAULT_FADE_DURATION);
 
         return () => clearTimeout(animationTimeout);
-    }, [isVisible]);
+    }, [isVisible, animationType]);
 
     if (!shouldRender) return null;
 

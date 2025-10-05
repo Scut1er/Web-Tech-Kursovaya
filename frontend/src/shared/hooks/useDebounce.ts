@@ -26,7 +26,9 @@ const useDebounce = (
             clearTimeout(timeoutIdRef.current);
         }
 
-        !!onRerun && onRerun();
+        if (!!onRerun) {
+            onRerun();
+        }
 
         timeoutIdRef.current = setTimeout(() => {
             callback();

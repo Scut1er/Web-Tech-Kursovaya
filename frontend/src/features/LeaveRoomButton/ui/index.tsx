@@ -1,48 +1,52 @@
 import ErrorParser from "@shared/services/ErrorParser";
+import { useLeaveRoomMutation } from "@entities/UserRooms/api";
 import { addNotification } from "@store/slices/Notifications";
-import { useJoinRoomMutation } from "@entities/UserRooms/api";
-import { IRoom } from "@entities/UserRooms/types";
-import { setRoomData } from "@store/slices/Room";
-import { ReactElement, useEffect } from "react";
+import { clearRoomData } from "@store/slices/Room";
 import { useRouter } from "next/navigation";
 import { Button } from "primereact/button";
 import { useDispatch } from "react-redux";
+import { ReactElement } from "react";
 import {
     NotificationsMessages,
     NotificationsSeverityTypes,
     routesData,
 } from "@utils/constants";
+import "./style.css";
 
-export interface IJoinInRoomButtonProps {
-    label?: string;
+export interface ILeaveRoomButtonProps {
     roomPublicId: string;
+    isRedirectOnLobby?: boolean;
 }
 
-const DEFAULT_LABEL: string = "Join";
-
-const JoinInRoomButton = ({
+const LeaveRoomButton = ({
     roomPublicId,
-    label = DEFAULT_LABEL,
-}: IJoinInRoomButtonProps): ReactElement => {
+    isRedirectOnLobby = false,
+}: ILeaveRoomButtonProps): ReactElement => {
     const dispatch = useDispatch();
     const router = useRouter();
 
-    const [joinRoom, { isLoading, isSuccess }] = useJoinRoomMutation();
+    const [leaveRoom, { isLoading }] = useLeaveRoomMutation();
 
-    const handleJoinInRoom = async () => {
+    const handleLeaveRoom = async () => {
         try {
-            const roomData: IRoom = await joinRoom({
+            await leaveRoom({
                 public_id: roomPublicId,
             }).unwrap();
 
-            dispatch(setRoomData(roomData));
+            dispatch(clearRoomData(null));
 
             dispatch(
                 addNotification({
-                    text: NotificationsMessages.ROOM_JOINED,
+                    text: NotificationsMessages.ROOM_LEAVED,
                     severity: NotificationsSeverityTypes.SUCCESS,
                 })
             );
+
+            if (!isRedirectOnLobby) {
+                return;
+            }
+
+            router.push(routesData.LOBBY.path);
         } catch (error: unknown) {
             dispatch(
                 addNotification({
@@ -53,17 +57,14 @@ const JoinInRoomButton = ({
         }
     };
 
-    useEffect(() => {
-        if (!isSuccess) {
-            return;
-        }
-
-        router.push(`${routesData.ROOM.path}/${roomPublicId}`);
-    }, [roomPublicId, isSuccess, router]);
-
     return (
-        <Button label={label} onClick={handleJoinInRoom} loading={isLoading} />
+        <Button
+            className="room-card-leave"
+            label="Leave"
+            onClick={handleLeaveRoom}
+            loading={isLoading}
+        />
     );
 };
 
-export default JoinInRoomButton;
+export default LeaveRoomButton;
