@@ -1,0 +1,19 @@
+.copy-label:hover {
+    cursor: pointer;
+}
+
+.copy-label {
+    cursor: pointer;
+    transition: color 0.3s, transform 0.2s;
+}
+
+.copy-label:hover {
+    color: var(--color-info, #2196f3);
+    transform: scale(1.05);
+}
+
+.copy-label.copied {
+    color: var(--color-success, #4caf50);
+    font-weight: bold;
+    transform: scale(1.1);
+}

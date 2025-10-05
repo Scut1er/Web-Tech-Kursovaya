@@ -1,4 +1,5 @@
 import React from "react";
+import CopyLabel from "@shared/common/CopyLabel/ui";
 import { JoinInRoomButton } from "@features/JoinInRoomButton";
 import { DeleteRoomButton } from "@features/DeleteRoomButton";
 import { IRoom } from "@entities/UserRooms/types";
@@ -16,7 +17,7 @@ export const RoomCard = ({ room, userId }: IRoomCardProps) => {
         <div className="room-card">
             <div className="room-card-header">
                 <h3 className="typography-card-title">{room.name}</h3>
-                <span className="typography-card-id">{room.public_id}</span>
+                <CopyLabel label={room.public_id} />
             </div>
 
             <div className="room-card-body">

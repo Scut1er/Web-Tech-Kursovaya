@@ -139,6 +139,7 @@ export const enum NotificationsMessages {
     ITEM_PURCHASED_TOGGLED = "Item purchase status successfully toggled!",
     ROOM_NOT_LOADED = "Room not loaded!",
     ROOM_LEAVED = "You successfully leaved through room!",
+    ROOM_ID_COPIED = "You copied room id to buffer!",
 }
 
 export const validationActionsConfig: Record<
