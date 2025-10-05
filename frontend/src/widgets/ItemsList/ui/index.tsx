@@ -24,7 +24,12 @@ export const ItemsList = ({ roomId }: ItemsListProps): ReactElement => {
     });
 
     if (isLoading) {
-        return <ProductsSkeletons />;
+        return (
+            <ProductsSkeletons
+                listStyles={{ maxHeight: "100%", padding: "1rem" }}
+                skeletonStyles={{ height: "7rem" }}
+            />
+        );
     }
 
     if (error || !data) {

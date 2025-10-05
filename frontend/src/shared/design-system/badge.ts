@@ -5,7 +5,7 @@ import {
 
 const badgeDesignSystem: BadgePassThroughOptions = {
     root: ({ props }: BadgePassThroughMethodOptions) => ({
-        className: `app-badge ${props.severity}`,
+        className: `app-badge typography-body ${props?.className || ""}`,
     }),
 };
 

@@ -25,6 +25,7 @@ import ErrorParser, {
     SpecialErrorMessages,
 } from "@shared/services/ErrorParser";
 import "./style.css";
+import { IAuthBody, IAuthSession } from "@entities/User/types";
 
 const SignUpForm = (): ReactElement => {
     const dispatch = useDispatch();
@@ -47,10 +48,14 @@ const SignUpForm = (): ReactElement => {
         try {
             setIsLoading(true);
 
-            await API.apiRequest("post", ApiEndpoints.REGISTRATION, {
-                username: values[FormValidationsFieldsIds.USERNAME],
-                password: values[FormValidationsFieldsIds.PASSWORD],
-            });
+            await API.apiRequest<IAuthSession, IAuthBody>(
+                "post",
+                ApiEndpoints.REGISTRATION,
+                {
+                    username: values[FormValidationsFieldsIds.USERNAME],
+                    password: values[FormValidationsFieldsIds.PASSWORD],
+                }
+            );
 
             dispatch(
                 addNotification({
