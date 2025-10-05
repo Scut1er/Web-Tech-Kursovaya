@@ -2,10 +2,11 @@
 
 import API from "@shared/api";
 import ErrorParser from "@shared/services/ErrorParser";
-import { resetSession, setIsUserAuthorized } from "@store/slices/User";
+import { PropsWithChildren, useCallback, useLayoutEffect } from "react";
+import { resetSession, updateAuthSession } from "@store/slices/User";
 import { addNotification } from "@store/slices/Notifications";
 import { AppDispatch, type TRootState } from "@store/index";
-import { PropsWithChildren, useLayoutEffect } from "react";
+import { IUserPersonalData } from "@entities/User/types";
 import { setIsLoading } from "@store/slices/Application";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
@@ -23,13 +24,16 @@ const ProtectedRoute = ({ children }: PropsWithChildren) => {
         (state: TRootState) => state.user.isUserAuthorized
     );
 
-    const getSession = async () => {
+    const getSession = useCallback(async () => {
         try {
             dispatch(setIsLoading(true));
 
-            await API.apiRequest("get", ApiEndpoints.ROOMS_MY);
+            const userPersonalData: IUserPersonalData = await API.apiRequest<
+                IUserPersonalData,
+                undefined
+            >("get", ApiEndpoints.FETCH_SESSION);
 
-            dispatch(setIsUserAuthorized(true));
+            dispatch(updateAuthSession(userPersonalData));
         } catch (error: unknown) {
             dispatch(
                 addNotification({
@@ -44,7 +48,7 @@ const ProtectedRoute = ({ children }: PropsWithChildren) => {
         } finally {
             dispatch(setIsLoading(false));
         }
-    };
+    }, [dispatch, router]);
 
     useLayoutEffect(() => {
         if (!isUserAuthorized) {
@@ -52,7 +56,7 @@ const ProtectedRoute = ({ children }: PropsWithChildren) => {
 
             return;
         }
-    }, []);
+    }, [isUserAuthorized, getSession]);
 
     if (!isUserAuthorized) {
         return <></>;

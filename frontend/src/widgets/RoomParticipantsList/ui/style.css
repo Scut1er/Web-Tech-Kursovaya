@@ -1,0 +1,22 @@
+.room-participants-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  max-height: 10rem;
+  overflow-y: auto;
+  margin-top: 0.75rem;
+  padding-right: 0.25rem;
+}
+
+.room-participants-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.room-participants-list::-webkit-scrollbar-thumb {
+  background-color: var(--color-border);
+  border-radius: 3px;
+}
+
+.room-participants-list::-webkit-scrollbar-track {
+  background: transparent;
+}

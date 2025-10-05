@@ -27,7 +27,10 @@ const SignOutButton = (): ReactElement => {
         try {
             setIsLoading(true);
 
-            await API.apiRequest("post", ApiEndpoints.SIGN_OUT);
+            await API.apiRequest<null, undefined>(
+                "post",
+                ApiEndpoints.SIGN_OUT
+            );
 
             dispatch(resetSession(null));
 

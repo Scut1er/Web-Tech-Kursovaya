@@ -12,6 +12,7 @@
 
 .recipe-card:hover {
   transform: translateY(-3px);
+  cursor: pointer;
 }
 
 .recipe-card-title {

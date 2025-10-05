@@ -1,9 +1,13 @@
-import { type ReactElement } from "react";
+import { CSSProperties, type ReactElement } from "react";
 import "./style.css";
 
-const ProductSkeleton = (): ReactElement => {
+export interface IProductSkeletonProps {
+    styles?: CSSProperties;
+}
+
+const ProductSkeleton = ({ styles }: IProductSkeletonProps): ReactElement => {
     return (
-        <div className="product-skeleton">
+        <div className="product-skeleton" style={styles}>
             <div className="skeleton-image" />
             <div className="skeleton-text" />
             <div className="skeleton-text short" />

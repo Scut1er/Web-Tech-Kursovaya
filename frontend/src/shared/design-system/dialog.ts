@@ -1,12 +1,9 @@
-import {
-    DialogPassThroughMethodOptions,
-    DialogPassThroughOptions,
-} from "primereact/dialog";
+import { DialogPassThroughOptions } from "primereact/dialog";
 
 const dialogDesignSystem: DialogPassThroughOptions = {
-    root: ({ props }: DialogPassThroughMethodOptions) => ({
+    root: {
         className: `app-dialog-root`,
-    }),
+    },
     mask: { className: "app-dialog-mask" },
     content: { className: "app-dialog-content" },
     header: { className: "app-dialog-header typography-subheading" },

@@ -1,4 +1,5 @@
 import React from "react";
+import CopyLabel from "@shared/common/CopyLabel/ui";
 import { JoinInRoomButton } from "@features/JoinInRoomButton";
 import { DeleteRoomButton } from "@features/DeleteRoomButton";
 import { IRoom } from "@entities/UserRooms/types";
@@ -6,14 +7,17 @@ import "./style.css";
 
 interface IRoomCardProps {
     room: IRoom;
+    userId: number;
 }
 
-export const RoomCard = ({ room }: IRoomCardProps) => {
+export const RoomCard = ({ room, userId }: IRoomCardProps) => {
+    const isUserOwner: boolean = userId === room.created_by;
+
     return (
         <div className="room-card">
             <div className="room-card-header">
                 <h3 className="typography-card-title">{room.name}</h3>
-                <span className="typography-card-id">{room.public_id}</span>
+                <CopyLabel label={room.public_id} />
             </div>
 
             <div className="room-card-body">
@@ -25,7 +29,9 @@ export const RoomCard = ({ room }: IRoomCardProps) => {
 
             <div className="room-card-actions">
                 <JoinInRoomButton roomPublicId={room.public_id} />
-                <DeleteRoomButton roomPublicId={room.public_id} />
+                {isUserOwner && (
+                    <DeleteRoomButton roomPublicId={room.public_id} />
+                )}
             </div>
         </div>
     );
