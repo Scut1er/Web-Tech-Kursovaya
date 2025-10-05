@@ -1,5 +1,5 @@
 import { addNotification } from "@store/slices/Notifications";
-import { ReactElement, useState } from "react";
+import { type ReactElement, type MouseEvent, useState } from "react";
 import { useDispatch } from "react-redux";
 import {
     NotificationsMessages,
@@ -17,7 +17,9 @@ const CopyLabel = ({ label }: ICopyLabelProps): ReactElement => {
     const dispatch = useDispatch();
     const [copied, setCopied] = useState<boolean>(false);
 
-    const handleCopyLabel = (): void => {
+    const handleCopyLabel = (event: MouseEvent<HTMLSpanElement>): void => {
+        event.stopPropagation();
+
         navigator.clipboard.writeText(label);
 
         setCopied(true);

@@ -140,6 +140,7 @@ export const enum NotificationsMessages {
     ROOM_NOT_LOADED = "Room not loaded!",
     ROOM_LEAVED = "You successfully leaved through room!",
     ROOM_ID_COPIED = "You copied room id to buffer!",
+    RECIPE_SEARCH_OPENED = "You successfully open search with this recipe!",
 }
 
 export const validationActionsConfig: Record<
