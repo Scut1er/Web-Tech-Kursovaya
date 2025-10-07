@@ -4,7 +4,7 @@ import { ProtectedRoute } from "@shared/wrappers/ProtectedRoute";
 import { addNotification } from "@store/slices/Notifications";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useRouter } from "next/navigation";
-import { RecipesList } from "@widgets/RecipesList";
+import { RecipesBlock } from "@widgets/RecipesBlock";
 import { IRoom } from "@entities/UserRooms/types";
 import { RoomHeader } from "@features/RoomHeader";
 import { ItemsList } from "@widgets/ItemsList";
@@ -62,7 +62,7 @@ const RoomPage = (): ReactNode => {
                         <ItemsList roomId={roomId} />
                     </div>
                     <div className="recipes-column">
-                        <RecipesList roomId={roomId} />
+                        <RecipesBlock roomId={roomId} />
                     </div>
                 </div>
             </div>

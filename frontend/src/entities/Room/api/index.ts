@@ -5,6 +5,11 @@ import { ApiEndpoints } from "@utils/constants";
 import { IDish } from "@entities/Recipe/type";
 import { IItem } from "@entities/Item/types";
 
+export enum RoomApiAiProviders {
+    MISTRAL = "mistral",
+    GEMINI = "gemini",
+}
+
 export interface IGetRoomDataBaseRequest {
     public_id: string;
 }
@@ -12,6 +17,10 @@ export interface IGetRoomDataBaseRequest {
 export interface IMutationRoomDataBaseRequest {
     roomId: string;
     itemId: number;
+}
+
+export interface IGetRecipesRequest extends IGetRoomDataBaseRequest {
+    provider: RoomApiAiProviders;
 }
 
 export type TItemUserChangeData = Pick<IItem, "name" | "quantity" | "category">;
@@ -43,9 +52,9 @@ export const roomApi = createApi({
                 `${ApiEndpoints.ROOMS}/${payload.public_id}/${ApiEndpoints.ITEMS}`,
             providesTags: ["RoomItems"],
         }),
-        loadRecipes: builder.query<IRecipesResponse, IGetRoomDataBaseRequest>({
+        loadRecipes: builder.query<IRecipesResponse, IGetRecipesRequest>({
             query: (payload) =>
-                `${ApiEndpoints.ROOMS}/${payload.public_id}/${ApiEndpoints.AI_RECIPES}?provider=mistral`,
+                `${ApiEndpoints.ROOMS}/${payload.public_id}/${ApiEndpoints.AI_RECIPES}?provider=${payload.provider}`,
             providesTags: ["RoomRecipes"],
         }),
         loadParticipants: builder.query<

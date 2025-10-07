@@ -59,7 +59,6 @@ const ItemForm = ({
                     placeholder="Category"
                     value={category}
                     onChange={(e) => setCategory(e.target.value)}
-                    required
                 />
             </label>
             <Button type="submit" loading={loading}>
