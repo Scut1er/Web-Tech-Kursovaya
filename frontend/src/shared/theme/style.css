@@ -156,6 +156,117 @@ body {
     font-size: 1.5rem;
 }
 
+.app-dropdown-root {
+  display: inline-flex;
+  align-items: center;
+  width: 100%;
+  border: 1px solid var(--color-border);
+  border-radius: 0.5rem;
+  background-color: var(--color-surface);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+  cursor: pointer;
+}
+
+.app-dropdown-root:hover,
+.app-dropdown-root:focus-within {
+  border-color: var(--color-primary);
+}
+
+.app-dropdown-input {
+  flex: 1;
+  padding: 0.5rem 0.75rem;
+  color: var(--color-text);
+  font-size: 1rem;
+  border: none;
+  background: transparent;
+  outline: none;
+}
+
+.app-dropdown-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  color: var(--color-text-muted);
+  transition: color 0.2s ease;
+}
+
+.app-dropdown-trigger:hover {
+  color: var(--color-primary);
+}
+
+.app-dropdown-panel {
+  margin-top: 0.25rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.5rem;
+  background-color: var(--color-surface);
+  box-shadow: var(--card-box-shadow);
+  overflow: hidden;
+  z-index: 1000;
+}
+
+.app-dropdown-items-wrapper {
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+.app-dropdown-item {
+  padding: 0.5rem 0.75rem;
+  color: var(--color-text);
+  transition: background-color 0.15s ease, color 0.15s ease;
+  cursor: pointer;
+}
+
+.app-dropdown-item:hover {
+  background-color: var(--color-bg-secondary);
+}
+
+.app-dropdown-item.p-highlight {
+  background-color: var(--color-primary);
+  color: var(--color-bg);
+}
+
+.app-dropdown-item-group {
+  font-weight: 600;
+  color: var(--color-text-muted);
+  padding: 0.5rem 0.75rem;
+  background-color: var(--color-bg-secondary);
+}
+
+.app-dropdown-empty-message {
+  padding: 0.75rem;
+  text-align: center;
+  color: var(--color-text-muted);
+}
+
+.app-dropdown-filter-input {
+  width: 100%;
+  border: 1px solid var(--color-border);
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  margin-bottom: 0.5rem;
+  background-color: var(--color-bg-secondary);
+  color: var(--color-text);
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.app-dropdown-filter-input:focus {
+  border-color: var(--color-primary);
+}
+
+.app-dropdown-clear-icon {
+  color: var(--color-text-muted);
+  margin-left: 0.25rem;
+  transition: color 0.2s ease;
+  cursor: pointer;
+}
+
+.app-dropdown-clear-icon:hover {
+  color: var(--color-danger);
+}
+
 @keyframes fadeInUp {
     0% {
         opacity: 0;
